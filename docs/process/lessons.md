@@ -27,7 +27,7 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 
 - **Qué falló:** `scripts/test-harness.sh` y `scripts/check.sh` pasan, pero el autotest no prueba las invariantes propias de la app, así que hubo que comprobarlas a mano metiendo un incumplimiento temporal. `harness.json` pide `init` "con datos semilla", y aquí solo instala dependencias. Se ignoró el aviso de `typecheck` y `lint` sin configurar, que se repite en cada comprobación aunque sea una decisión aprobada.
 - **Qué sobró:** para esta app, gran parte de `/design-system`: tokens de estado sin uso previsto (`--ok`, `--warn`) y filas de tipografía que no aplican. También la vista previa desplegada del paso 10, que se saltó por decisión aprobada.
-- **Qué faltó:** una forma de marcar un comando como "no aplica" en `checks` para que no se confunda con "sin configurar", y una forma de medir el consumo por bloque.
+- **Qué faltó:** una forma de marcar un comando como "no aplica" en `checks` para que no se confunda con "sin configurar", una forma de medir el consumo por bloque y un paso que compruebe la identidad de git: los primeros commits fallaron por no tenerla configurada, y el comando siguió y subió la rama vacía.
 - **Cambio propuesto al arnés:** (1) distinguir en `harness.json` entre comando vacío por olvido y `null` por decisión; (2) añadir a `/bootstrap` un paso que pruebe cada invariante con un incumplimiento; (3) reducir `/design-system` según la talla de la app.
 
 <!-- Una entrada por cierre:
