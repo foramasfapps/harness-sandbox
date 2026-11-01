@@ -5,7 +5,7 @@ metadata:
   type: feedback
 ---
 
-Un test en rojo no demuestra nada si la app no existe: todos fallan por falta de elementos, incluidos los mal escritos. En Modo 2, además del rojo, ejecuta los tests contra una app de referencia desechable en el scratchpad (nunca en el proyecto), con una config `.cjs` externa que apunte `testDir` a `e2e/`, e inyéctale fallos.
+Un test en rojo no demuestra nada si la app no existe: todos fallan por falta de elementos, incluidos los mal escritos. En Modo 2, además del rojo, ejecuta los tests contra una app de referencia e inyéctale fallos, sin escribirla en el proyecto. Cómo hacerlo sin archivos: [[qa-tests-en-memoria]].
 
 **Why:** en `tareas` (01-11-2026), 65 fallos inyectados revelaron dos comprobaciones débiles que el rojo no mostraba: el foco de DP-02 con Intro (nunca salía del campo) y el nombre accesible tras escribir (no había redibujo).
 

@@ -1,1 +1,3 @@
-- [Trampas de Playwright y prueba de los tests](playwright-test-traps.md) — redibujo, `check()`, `-g`, repetidas y fallos inyectados en una app desechable
+- [Trampas de Playwright y prueba de los tests](playwright-test-traps.md) — redibujo, `check()`, `-g`, repetidas y fallos inyectados
+- [Inyectar fallos sin escribir archivos](qa-tests-en-memoria.md) — el arnés bloquea el scratchpad: entrada estándar y servidor en memoria
+- [Lo que los e2e por defecto no ven](navegador-completo-y-diseno.md) — icono 404 solo en navegador completo; requisitos de diseño sin CA
