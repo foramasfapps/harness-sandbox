@@ -11,11 +11,11 @@
     <main class="column">
       <h1>Tareas</h1>
       <form id="add-form" class="add-form" novalidate>
-        <input id="add-field" class="field" type="text" name="text" aria-label="Nueva tarea" placeholder="Escribe una tarea" autocomplete="off">
+        <input id="add-field" class="field" type="text" name="text" aria-label="Nueva tarea" maxlength="200" placeholder="Escribe una tarea" autocomplete="off">
         <button type="submit" class="button button-primary">Añadir</button>
       </form>
       <div id="notices" class="notices"></div>
-      <p id="empty-message" class="empty" hidden>Añade tu primera tarea.</p>
+      <div id="empty-slot"></div>
       <ul id="task-list" class="task-list" aria-label="Tareas"></ul>
     </main>
     <script type="module" src="src/app.js"></script>

@@ -150,7 +150,7 @@
           "path": "e2e/tareas/anadir.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "Comprobar en consola que el envío del formulario no choca con form-action 'none' (riesgo en plan.md)."
     },
     {

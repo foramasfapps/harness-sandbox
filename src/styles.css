@@ -159,3 +159,11 @@ h1 {
     grid-row: 1;
   }
 }
+
+.notice-error {
+  color: var(--error);
+}
+
+.field.is-invalid {
+  border-color: var(--error);
+}

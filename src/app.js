@@ -1,5 +1,6 @@
 // Pantalla de la lista de tareas. Un único estado en memoria; tras cada cambio se redibuja todo.
-import { loadTasks } from "./storage.js";
+import { loadTasks, saveTasks } from "./storage.js";
+import { addTask } from "./tasks.js";
 
 const loaded = loadTasks();
 
@@ -10,14 +11,18 @@ const state = {
   openRow: null,
   // Dónde queda el foco tras redibujar: { id, control } o { field: true } o null.
   focus: null,
+  // Error de la zona de añadir.
+  addError: false,
 };
 
 const READ_WARNING =
   "No se han podido leer tus tareas guardadas. Si haces un cambio, se reemplazarán.";
 
+const ADD_ERROR = "Escribe algo para añadir la tarea.";
+
 const els = {
   notices: document.querySelector("#notices"),
-  empty: document.querySelector("#empty-message"),
+  emptySlot: document.querySelector("#empty-slot"),
   list: document.querySelector("#task-list"),
   addField: document.querySelector("#add-field"),
   addForm: document.querySelector("#add-form"),
@@ -82,13 +87,46 @@ function render() {
     warning.textContent = READ_WARNING;
     notices.push(warning);
   }
+  if (state.addError) {
+    const error = document.createElement("p");
+    error.className = "notice notice-error";
+    error.textContent = ADD_ERROR;
+    notices.push(error);
+  }
+  els.addField.classList.toggle("is-invalid", state.addError);
   els.notices.replaceChildren(...notices);
-  els.empty.hidden = state.tasks.length > 0;
+  // El mensaje de vacío solo existe en el DOM cuando toca.
+  if (state.tasks.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "Añade tu primera tarea.";
+    els.emptySlot.replaceChildren(empty);
+  } else {
+    els.emptySlot.replaceChildren();
+  }
   els.list.replaceChildren(...state.tasks.map(buildRow));
   applyFocus();
 }
 
-// Los botones se conectan en las tareas siguientes; por ahora solo se evita enviar el formulario.
-els.addForm.addEventListener("submit", (event) => event.preventDefault());
+// Añadir: una tarea válida va al principio, se guarda y deja el campo vacío y con foco.
+els.addForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const next = addTask(state.tasks, els.addField.value);
+  if (next === null) {
+    // CA-04 y CA-43: no se crea ni se guarda nada; el campo no cambia.
+    state.addError = true;
+    state.focus = { field: true };
+    render();
+    return;
+  }
+  state.tasks = next;
+  state.addError = false;
+  // El primer cambio guardado reemplaza lo ilegible (CA-27).
+  state.readable = true;
+  saveTasks(state.tasks);
+  els.addField.value = "";
+  state.focus = { field: true };
+  render();
+});
 
 render();
