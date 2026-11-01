@@ -1,0 +1,24 @@
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Dependencias y builds
+node_modules/
+/dist/
+/build/
+.next/
+/coverage/
+
+# Tests e2e
+playwright-report/
+test-results/
+
+# Claude Code: ajustes y memoria locales
+.claude/settings.local.json
+.claude/agent-memory-local/
+CLAUDE.local.md
+
+# Sistema
+.DS_Store
+.claude/.last-check

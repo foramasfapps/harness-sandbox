@@ -1,0 +1,14 @@
+{
+  "_readme": "Configuración del arnés. La rellena cada app en /bootstrap (B3). Un comando vacío se salta y se avisa. Ver docs/process/controls.md.",
+  "checks": {
+    "typecheck": "",
+    "lint": "",
+    "test": ""
+  },
+  "init": "",
+  "protected_branches": ["main", "master"],
+  "secret_files": [".env", ".env.*"],
+  "secret_file_exceptions": [".env.example"],
+  "production_command_patterns": [],
+  "acceptance_test_paths": ["tests/acceptance/", "e2e/"]
+}

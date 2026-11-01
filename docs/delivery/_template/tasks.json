@@ -1,0 +1,21 @@
+{
+  "_readme": "Lista de tareas de la funcionalidad. La escribe el Arquitecto en /design y se aprueba en G2. Los agentes solo cambian 'status' (y 'acceptance_tests' en el caso de QA); añadir, borrar o reescribir tareas exige volver a G2. 'status': failing | passing | blocked. 'difficulty': normal | hard (hard sube el modelo y el esfuerzo del Developer). 'level': unit | integration | e2e.",
+  "feature": "{{feature}}",
+  "prd": "docs/product/prd-NN-{{feature}}.md",
+  "approved": null,
+  "tasks": [
+    {
+      "id": "T-01",
+      "title": "{{Una migración, un módulo o una pantalla}}",
+      "covers": ["CA-01"],
+      "depends_on": [],
+      "difficulty": "normal",
+      "verify": "{{comando o test que demuestra que está hecha}}",
+      "acceptance_tests": [
+        { "ca": "CA-01", "level": "unit", "path": "tests/acceptance/{{feature}}/ca-01.test.ts" }
+      ],
+      "status": "failing",
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # {{Preparación del stack: se rellena en /bootstrap (B3). Ejemplo para Node:}}
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 22
+      #     cache: npm
+      # - run: npm ci
+
+      - name: Autotest del arnés (los controles bloquean lo que deben)
+        run: scripts/test-harness.sh
+
+      - name: Comprobaciones (tipos, lint, tests, invariantes)
+        run: scripts/check.sh
+
+      # {{Tests e2e: se activan cuando exista la app. Ejemplo:}}
+      # - run: npx playwright install --with-deps chromium
+      # - run: npx playwright test
