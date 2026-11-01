@@ -63,7 +63,7 @@
           "path": "e2e/tareas/smoke.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "Elimina el Hola, mundo. QA ya habrá sustituido e2e/hello.spec.js por e2e/tareas/smoke.spec.js. Pinta las filas pendientes y completadas con el contrato de Interfaces; los botones aún no hacen nada. Deja preparados el estado único y el foco tras redibujar (decisiones 2 y 3)."
     },
     {
