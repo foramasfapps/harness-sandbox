@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 1 | 10 | 0 |
+| 11 | 2 | 9 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-02 · 01-11-2026 · developer
+- **Hecho:** `src/storage.js` (STORAGE_KEY, loadTasks, saveTasks) y `tests/unit/storage.test.js`.
+- **Verificado con:** `node --test tests/unit/storage.test.js` (10 en verde) y `scripts/check.sh` en verde.
+- **Aprendido:** loadTasks reutiliza isValidTaskList; sin clave da lista vacía legible y nunca escribe.
+- **Queda:** nada.
 
 ### T-01 · 01-11-2026 · developer
 - **Hecho:** `src/tasks.js` (addTask, editTask, setCompleted, removeTask, isValidTaskList, MAX_TEXT_LENGTH) y `tests/unit/tasks.test.js`.

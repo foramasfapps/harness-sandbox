@@ -25,7 +25,7 @@
       "difficulty": "normal",
       "verify": "node --test tests/unit/storage.test.js (con un window falso: clave inexistente, [], 'null', JSON inválido, setItem que lanza y acceso a localStorage que lanza; ninguna llamada lanza errores y nada escribe al leer)",
       "acceptance_tests": [],
-      "status": "failing",
+      "status": "passing",
       "notes": "Sin CA directos: se demuestra en T-03, T-04 y T-09. El módulo no toca window al importarse."
     },
     {
