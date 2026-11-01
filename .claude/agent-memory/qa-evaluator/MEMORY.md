@@ -1,0 +1,1 @@
+- [Trampas de Playwright y prueba de los tests](playwright-test-traps.md) — redibujo, `check()`, `-g`, repetidas y fallos inyectados en una app desechable
