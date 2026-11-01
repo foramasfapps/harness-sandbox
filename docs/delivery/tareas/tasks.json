@@ -68,7 +68,7 @@
           "path": "e2e/tareas/smoke.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "Elimina el Hola, mundo. QA ya habrá sustituido e2e/hello.spec.js por e2e/tareas/smoke.spec.js. Pinta las filas pendientes y completadas con el contrato de Interfaces; los botones aún no hacen nada. Deja preparados el estado único y el foco tras redibujar (decisiones 2 y 3). Reabierta por QA el 01-11-2026: ver qa-report.md (404 de favicon.ico en CA-29; avisos DP-06; estilo y contraste)."
     },
     {

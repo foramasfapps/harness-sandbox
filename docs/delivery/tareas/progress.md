@@ -25,6 +25,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Queda:**
 -->
 
+### T-03 (reabierta por QA) · 01-11-2026 · developer
+- **Hecho:** fallos 1, 3, 4, 5, 6, 7, 8 y 9 del informe. `favicon.ico` real en la raíz con `<link rel="icon">` (un `data:` lo bloquea la CSP); contenedores `role="alert"` (error de añadir) y `role="status"` (aviso de lectura) presentes desde el inicio, con el error antes del aviso; campo con error a 2 px; aviso de lectura como bloque con borde `--warn`, fondo `--surface`, icono y texto `--fg`; la lista se oculta cuando está vacía; placeholder en `--muted`; `maxLength` del campo tomado de `MAX_TEXT_LENGTH` en `app.js`.
+- **Verificado con:** `npx playwright test e2e/tareas`: pasan CA-01..08, 26, 27, 29 (incluido el de navegador completo), 42, 43, 46, 49, smoke y todos los de `hallazgos-qa` salvo RN-13; `scripts/check.sh` en verde.
+- **Aprendido:** el aviso de lectura no se reconstruye en cada redibujado para no re-anunciarlo.
+- **Queda:** fallo 2 (RN-13) y CA-30, de T-09. Los otros fallos en rojo son de T-05 a T-11.
+
 ### T-04 · 01-11-2026 · developer
 - **Hecho:** formulario de añadir conectado (botón y Enter) con `addTask`, guardado, error de vacío, campo vacío y con foco, y `maxlength="200"` en el campo. El mensaje de vacío pasó a crearse/quitarse del DOM (`#empty-slot`) porque `hidden` seguía contando como texto en la página.
 - **Verificado con:** `npx playwright test e2e/tareas -g "CA-02:|...|CA-49:"` (12 en verde, más CA-01, CA-26, CA-29 y smoke) y `scripts/check.sh` en verde.

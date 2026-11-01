@@ -1,6 +1,6 @@
 // Pantalla de la lista de tareas. Un único estado en memoria; tras cada cambio se redibuja todo.
 import { loadTasks, saveTasks } from "./storage.js";
-import { addTask } from "./tasks.js";
+import { MAX_TEXT_LENGTH, addTask } from "./tasks.js";
 
 const loaded = loadTasks();
 
@@ -21,12 +21,16 @@ const READ_WARNING =
 const ADD_ERROR = "Escribe algo para añadir la tarea.";
 
 const els = {
-  notices: document.querySelector("#notices"),
+  addErrorSlot: document.querySelector("#add-error-slot"),
+  readSlot: document.querySelector("#read-slot"),
   emptySlot: document.querySelector("#empty-slot"),
   list: document.querySelector("#task-list"),
   addField: document.querySelector("#add-field"),
   addForm: document.querySelector("#add-form"),
 };
+
+// El límite sale de MAX_TEXT_LENGTH para que el 200 esté en un solo sitio.
+els.addField.maxLength = MAX_TEXT_LENGTH;
 
 function buildRow(task) {
   const item = document.createElement("li");
@@ -80,21 +84,26 @@ function applyFocus() {
 }
 
 function render() {
-  const notices = [];
-  if (!state.readable) {
-    const warning = document.createElement("p");
-    warning.className = "notice";
-    warning.textContent = READ_WARNING;
-    notices.push(warning);
-  }
+  // Los contenedores existen desde el principio para que el lector anuncie lo que entra (DP-06).
+  // El error va justo bajo el formulario y el aviso de lectura después; el de lectura solo se
+  // reconstruye si cambia, para no anunciarlo de nuevo en cada redibujado.
   if (state.addError) {
     const error = document.createElement("p");
     error.className = "notice notice-error";
     error.textContent = ADD_ERROR;
-    notices.push(error);
+    els.addErrorSlot.replaceChildren(error);
+  } else {
+    els.addErrorSlot.replaceChildren();
   }
   els.addField.classList.toggle("is-invalid", state.addError);
-  els.notices.replaceChildren(...notices);
+  if (!state.readable && els.readSlot.children.length === 0) {
+    const warning = document.createElement("p");
+    warning.className = "notice notice-warn";
+    warning.textContent = READ_WARNING;
+    els.readSlot.replaceChildren(warning);
+  } else if (state.readable) {
+    els.readSlot.replaceChildren();
+  }
   // El mensaje de vacío solo existe en el DOM cuando toca.
   if (state.tasks.length === 0) {
     const empty = document.createElement("p");
@@ -104,6 +113,7 @@ function render() {
   } else {
     els.emptySlot.replaceChildren();
   }
+  els.list.hidden = state.tasks.length === 0;
   els.list.replaceChildren(...state.tasks.map(buildRow));
   applyFocus();
 }

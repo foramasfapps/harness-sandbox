@@ -102,6 +102,22 @@ h1 {
 
 .notice {
   margin: 0 0 var(--space-2);
+  color: var(--fg);
+}
+
+.notice::before {
+  content: "\26A0" / "";
+  margin-right: var(--space-2);
+}
+
+.notice-warn {
+  padding: var(--space-3);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.notice-warn::before {
   color: var(--warn);
 }
 
@@ -165,5 +181,11 @@ h1 {
 }
 
 .field.is-invalid {
+  border-width: 2px;
   border-color: var(--error);
+}
+
+.field::placeholder {
+  color: var(--muted);
+  opacity: 1;
 }
