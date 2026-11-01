@@ -200,7 +200,7 @@
           "path": "e2e/tareas/completar.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": ""
     },
     {

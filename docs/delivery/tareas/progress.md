@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 4 | 7 | 0 |
+| 11 | 5 | 6 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-05 · 01-11-2026 · developer
+- **Hecho:** casilla conectada con `setCompleted` (listener `change` delegado en la lista), guardado y foco que sigue a la casilla tras recolocar la fila.
+- **Verificado con:** `npx playwright test e2e/tareas -g "CA-10:|CA-11:|CA-12:|CA-38:|CA-47:"` (5 en verde) y `scripts/check.sh` en verde.
+- **Aprendido:** el redibujado completo conserva el foco gracias a `data-control="check"`.
+- **Queda:** nada.
 
 ### T-03 (reabierta por QA) · 01-11-2026 · developer
 - **Hecho:** fallos 1, 3, 4, 5, 6, 7, 8 y 9 del informe. `favicon.ico` real en la raíz con `<link rel="icon">` (un `data:` lo bloquea la CSP); contenedores `role="alert"` (error de añadir) y `role="status"` (aviso de lectura) presentes desde el inicio, con el error antes del aviso; campo con error a 2 px; aviso de lectura como bloque con borde `--warn`, fondo `--surface`, icono y texto `--fg`; la lista se oculta cuando está vacía; placeholder en `--muted`; `maxLength` del campo tomado de `MAX_TEXT_LENGTH` en `app.js`.

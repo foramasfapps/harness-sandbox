@@ -1,6 +1,6 @@
 // Pantalla de la lista de tareas. Un único estado en memoria; tras cada cambio se redibuja todo.
 import { loadTasks, saveTasks } from "./storage.js";
-import { MAX_TEXT_LENGTH, addTask } from "./tasks.js";
+import { MAX_TEXT_LENGTH, addTask, setCompleted } from "./tasks.js";
 
 const loaded = loadTasks();
 
@@ -40,6 +40,7 @@ function buildRow(task) {
   const check = document.createElement("input");
   check.type = "checkbox";
   check.className = "task-check";
+  check.dataset.control = "check";
   check.checked = task.completed;
   check.setAttribute("aria-label", task.text);
 
@@ -136,6 +137,18 @@ els.addForm.addEventListener("submit", (event) => {
   saveTasks(state.tasks);
   els.addField.value = "";
   state.focus = { field: true };
+  render();
+});
+
+// Completar o desmarcar: setCompleted recoloca la tarea; el foco sigue a la casilla.
+els.list.addEventListener("change", (event) => {
+  const check = event.target;
+  if (!check.classList?.contains("task-check")) return;
+  const id = check.closest(".task-row").dataset.id;
+  state.tasks = setCompleted(state.tasks, id, check.checked);
+  state.readable = true;
+  saveTasks(state.tasks);
+  state.focus = { id, control: "check" };
   render();
 });
 
