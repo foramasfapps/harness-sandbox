@@ -1,6 +1,6 @@
 // Pantalla de la lista de tareas. Un único estado en memoria; tras cada cambio se redibuja todo.
 import { loadTasks, saveTasks } from "./storage.js";
-import { MAX_TEXT_LENGTH, addTask, setCompleted } from "./tasks.js";
+import { MAX_TEXT_LENGTH, addTask, editTask, setCompleted } from "./tasks.js";
 
 const loaded = loadTasks();
 
@@ -14,6 +14,8 @@ const state = {
   // Error de la zona de añadir.
   addError: false,
 };
+
+const EDIT_ERROR = "Escribe algo para guardar la tarea.";
 
 const READ_WARNING =
   "No se han podido leer tus tareas guardadas. Si haces un cambio, se reemplazarán.";
@@ -32,7 +34,66 @@ const els = {
 // El límite sale de MAX_TEXT_LENGTH para que el 200 esté en un solo sitio.
 els.addField.maxLength = MAX_TEXT_LENGTH;
 
+function buildEditRow(task, open) {
+  const item = document.createElement("li");
+  item.className = "task-row";
+  item.dataset.id = task.id;
+
+  const check = document.createElement("input");
+  check.type = "checkbox";
+  check.className = "task-check";
+  check.dataset.control = "check";
+  check.checked = task.completed;
+  check.disabled = true;
+  check.setAttribute("aria-label", task.text);
+
+  const form = document.createElement("form");
+  form.className = "edit-form";
+  form.noValidate = true;
+
+  const field = document.createElement("input");
+  field.type = "text";
+  field.className = open.error ? "field is-invalid" : "field";
+  field.dataset.control = "field";
+  field.maxLength = MAX_TEXT_LENGTH;
+  field.autocomplete = "off";
+  field.value = open.value;
+  field.setAttribute("aria-label", `Editar tarea: ${task.text}`);
+  form.append(field);
+
+  if (open.error) {
+    const error = document.createElement("p");
+    error.className = "notice notice-error";
+    error.setAttribute("role", "alert");
+    error.textContent = EDIT_ERROR;
+    form.append(error);
+  }
+
+  const actions = document.createElement("div");
+  actions.className = "task-actions";
+  const save = document.createElement("button");
+  save.type = "submit";
+  save.className = "button button-primary";
+  save.dataset.control = "save";
+  save.textContent = "Guardar";
+  save.setAttribute("aria-label", `Guardar cambios de: ${task.text}`);
+  const cancel = document.createElement("button");
+  cancel.type = "button";
+  cancel.className = "button";
+  cancel.dataset.control = "cancel";
+  cancel.textContent = "Cancelar";
+  cancel.setAttribute("aria-label", `Cancelar edición de: ${task.text}`);
+  actions.append(save, cancel);
+  form.append(actions);
+
+  item.append(check, form);
+  return item;
+}
+
 function buildRow(task) {
+  if (state.openRow && state.openRow.id === task.id && state.openRow.mode === "edit") {
+    return buildEditRow(task, state.openRow);
+  }
   const item = document.createElement("li");
   item.className = "task-row";
   item.dataset.id = task.id;
@@ -78,7 +139,10 @@ function applyFocus() {
   }
   for (const row of els.list.children) {
     if (row.dataset.id === target.id) {
-      row.querySelector(`[data-control="${target.control}"]`)?.focus();
+      const control = row.querySelector(`[data-control="${target.control}"]`);
+      control?.focus();
+      // Al abrir la edición el texto queda seleccionado (RF-04).
+      if (target.select && control) control.select();
       return;
     }
   }
@@ -150,6 +214,55 @@ els.list.addEventListener("change", (event) => {
   saveTasks(state.tasks);
   state.focus = { id, control: "check" };
   render();
+});
+
+function closeEdit() {
+  const id = state.openRow.id;
+  state.openRow = null;
+  state.focus = { id, control: "edit" };
+  render();
+}
+
+// Editar: abre la fila con el texto seleccionado; lo escrito vive en el estado.
+els.list.addEventListener("click", (event) => {
+  const button = event.target.closest?.("button");
+  if (!button) return;
+  const id = button.closest(".task-row").dataset.id;
+  const control = button.dataset.control;
+  if (control === "edit") {
+    const task = state.tasks.find((t) => t.id === id);
+    state.openRow = { id, mode: "edit", value: task.text, error: false };
+    state.focus = { id, control: "field", select: true };
+    render();
+  } else if (control === "cancel" && state.openRow?.mode === "edit") {
+    closeEdit();
+  }
+});
+
+els.list.addEventListener("input", (event) => {
+  if (event.target.dataset?.control === "field" && state.openRow) {
+    state.openRow.value = event.target.value;
+  }
+});
+
+els.list.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!state.openRow || state.openRow.mode !== "edit") return;
+  const next = editTask(state.tasks, state.openRow.id, state.openRow.value);
+  if (next === null) {
+    state.openRow.error = true;
+    state.focus = { id: state.openRow.id, control: "field" };
+    render();
+    return;
+  }
+  state.tasks = next;
+  state.readable = true;
+  saveTasks(state.tasks);
+  closeEdit();
+});
+
+els.list.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && state.openRow?.mode === "edit") closeEdit();
 });
 
 render();

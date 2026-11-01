@@ -287,7 +287,7 @@
           "path": "e2e/tareas/editar.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "Con la opción A de la pregunta 1: el texto queda seleccionado al abrir. Lo escrito se guarda en el estado, no solo en el campo."
     },
     {

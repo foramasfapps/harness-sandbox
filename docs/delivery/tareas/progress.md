@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 5 | 6 | 0 |
+| 11 | 6 | 5 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-06 · 01-11-2026 · developer
+- **Hecho:** edición en la fila: Editar abre campo con el texto seleccionado, Guardar/Enter (`editTask`), Cancelar/Esc, error de vacío bajo el campo con foco en él; lo escrito vive en `state.openRow`. Casilla deshabilitada mientras se edita.
+- **Verificado con:** `npx playwright test e2e/tareas -g "CA-09:|CA-13:|...|CA-41:"` (12 en verde) y `scripts/check.sh` en verde.
+- **Aprendido:** el submit delegado en la lista basta (Enter y botón Guardar comparten camino).
+- **Queda:** una sola fila abierta (T-08), fallo de guardado (T-09), foco y estilos finos (T-10, T-11).
 
 ### T-05 · 01-11-2026 · developer
 - **Hecho:** casilla conectada con `setCompleted` (listener `change` delegado en la lista), guardado y foco que sigue a la casilla tras recolocar la fila.
