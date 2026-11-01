@@ -6,16 +6,30 @@ set -u
 cd "$(dirname "$0")/.." || exit 2
 failed=0
 
-# ── Ejemplo: ningún porcentaje escrito a mano en la lógica de negocio ───────
-# matches="$(grep -rnE '[0-9]+(\.[0-9]+)? ?%|0\.[0-9]+ \* ' src/lib/domain --include='*.ts' | grep -v '\.test\.ts' || true)"
-# if [ -n "$matches" ]; then
-#   echo "Regla 'ningún parámetro de negocio en el código' incumplida:"
-#   echo "$matches"
-#   failed=1
-# fi
+# ── Las tareas no salen del navegador ───────────────────────────────────────
+matches="$(grep -rnE '\b(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon)\b|https?://' index.html src || true)"
+if [ -n "$matches" ]; then
+  echo "Regla 'las tareas no salen del navegador' incumplida:"
+  echo "$matches"
+  failed=1
+fi
+if ! grep -q "http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'" index.html; then
+  echo "Regla 'las tareas no salen del navegador' incumplida: index.html no limita sus orígenes con Content-Security-Policy"
+  failed=1
+fi
 
-# ── Ejemplo: nada de floats para dinero ─────────────────────────────────────
-# matches="$(grep -rnE 'parseFloat\(|toFixed\(' src/lib/domain --include='*.ts' || true)"
-# [ -n "$matches" ] && { echo "Dinero con floats:"; echo "$matches"; failed=1; }
+# ── El texto de una tarea siempre se muestra como texto ─────────────────────
+matches="$(grep -rnE '\b(innerHTML|outerHTML|insertAdjacentHTML|document\.write)\b' src || true)"
+if [ -n "$matches" ]; then
+  echo "Regla 'el texto siempre se muestra como texto' incumplida:"
+  echo "$matches"
+  failed=1
+fi
+
+# ── La interfaz va en español ───────────────────────────────────────────────
+if ! grep -q '<html lang="es">' index.html; then
+  echo "Regla 'la interfaz va en español' incumplida: index.html no declara lang=\"es\""
+  failed=1
+fi
 
 [ "$failed" -eq 0 ] || exit 2
