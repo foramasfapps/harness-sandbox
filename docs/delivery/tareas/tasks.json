@@ -12,7 +12,7 @@
       "difficulty": "normal",
       "verify": "node --test tests/unit/tasks.test.js (orden RN-01 a RN-03 con las listas de CA-03, CA-10, CA-11, CA-12 y CA-47; recorte y vacío RN-05; edición RN-04; repetidas RN-09; los 10 valores de CA-29 en isValidTaskList)",
       "acceptance_tests": [],
-      "status": "failing",
+      "status": "passing",
       "notes": "Sin CA directos: sus reglas se demuestran en T-03 a T-08. Interfaz en plan.md. Con la opción A de la pregunta 3: isValidTaskList rechaza también text de solo espacios e id vacío o repetido."
     },
     {

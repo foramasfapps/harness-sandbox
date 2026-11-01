@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 0 | 11 | 0 |
+| 11 | 1 | 10 | 0 |
 
 ## Bloqueos
 
@@ -24,3 +24,9 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-01 · 01-11-2026 · developer
+- **Hecho:** `src/tasks.js` (addTask, editTask, setCompleted, removeTask, isValidTaskList, MAX_TEXT_LENGTH) y `tests/unit/tasks.test.js`.
+- **Verificado con:** `node --test tests/unit/tasks.test.js` (15 en verde) y `scripts/check.sh` en verde.
+- **Aprendido:** setCompleted con un id inexistente devuelve una copia sin cambios.
+- **Queda:** nada.
