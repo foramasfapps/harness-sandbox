@@ -1,6 +1,6 @@
 # Sistema de diseño
 
-> Estado: Pendiente de G0 · Se crea con `/design-system` (una vez por app) y se aprueba en G0. Vista previa: `docs/design/design-system-preview.html`.
+> Estado: Aprobado (01-11-2026) · Se crea con `/design-system` (una vez por app) y se aprueba en G0. Vista previa: `docs/design/design-system-preview.html`.
 
 ## Principios
 

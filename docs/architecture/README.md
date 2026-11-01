@@ -1,6 +1,6 @@
 # Arquitectura
 
-> Estado: Pendiente de G0 · Se escribe en G0 (B2 del playbook) y la mantiene el Arquitecto.
+> Estado: Aprobado (01-11-2026) · Se escribe en G0 (B2 del playbook) y la mantiene el Arquitecto.
 
 ## Stack
 

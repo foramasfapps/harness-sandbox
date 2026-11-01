@@ -1,6 +1,6 @@
 # Visión
 
-> Estado: Pendiente de G0 · Se escribe con `/bootstrap` y se aprueba en G0.
+> Estado: Aprobado (01-11-2026) · Se escribe con `/bootstrap` y se aprueba en G0.
 
 ## Problema
 

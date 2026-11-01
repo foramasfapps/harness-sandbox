@@ -30,6 +30,13 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 - **Qué faltó:** una forma de marcar un comando como "no aplica" en `checks` para que no se confunda con "sin configurar", una forma de medir el consumo por bloque y un paso que compruebe la identidad de git: los primeros commits fallaron por no tenerla configurada, y el comando siguió y subió la rama vacía.
 - **Cambio propuesto al arnés:** (1) distinguir en `harness.json` entre comando vacío por olvido y `null` por decisión; (2) añadir a `/bootstrap` un paso que pruebe cada invariante con un incumplimiento; (3) reducir `/design-system` según la talla de la app.
 
+### `/bootstrap` puerta G0 · 01-11-2026
+
+- **Qué falló:** el cierre no dice cuándo se aprueba si la CI sigue en curso; hizo falta una aprobación condicionada a que terminara en verde.
+- **Qué sobró:** nada.
+- **Qué faltó:** en `/bootstrap`, una regla sobre el orden entre aprobar G0 y hacer merge del PR. Los documentos pasan a `Aprobado` dentro de un PR todavía sin fusionar, así que en `main` siguen sin aprobar hasta el merge.
+- **Cambio propuesto al arnés:** indicar en `/bootstrap` que G0 exige la CI terminada en verde y que el merge del PR la cierra.
+
 <!-- Una entrada por cierre:
 ### <feature> · <fecha>
 - **Qué falló:**

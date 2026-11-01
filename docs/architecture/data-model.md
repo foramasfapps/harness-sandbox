@@ -1,6 +1,6 @@
 # Modelo de datos
 
-> Versión: 0 · Estado: Pendiente de G0 · Lo mantiene el Arquitecto. Cada cambio indica el PRD que lo introduce, p. ej. *(PRD 03)*.
+> Versión: 0 · Estado: Aprobado (01-11-2026) · Lo mantiene el Arquitecto. Cada cambio indica el PRD que lo introduce, p. ej. *(PRD 03)*.
 
 ## Principios
 

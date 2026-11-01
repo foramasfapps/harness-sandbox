@@ -1,6 +1,6 @@
 # ADR 0001 – Página estática con datos en `localStorage`
 
-> Estado: Propuesto · Fecha: 01-11-2026
+> Estado: Aprobado · Fecha: 01-11-2026
 
 ## Contexto
 
