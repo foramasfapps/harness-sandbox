@@ -378,7 +378,7 @@
           "path": "e2e/tareas/una-fila-abierta.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "Con la opción A de la pregunta 2: marcar la casilla de otra fila tampoco cierra la abierta ni pierde lo escrito."
     },
     {

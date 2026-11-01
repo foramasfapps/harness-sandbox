@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 7 | 4 | 0 |
+| 11 | 8 | 3 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-08 · 01-11-2026 · developer
+- **Hecho:** los CA-33 a CA-36 ya pasaban con lo construido en T-06 y T-07, sin cambios. Se corrige un fallo que esos tests no ven: Esc se escuchaba en toda la lista, así que con B en edición y "B2" escrito, un Esc con el foco en la casilla o un botón de otra fila cancelaba B y perdía lo escrito (también en la confirmación). Ahora Esc solo actúa desde la fila abierta (decisión 5 de `plan.md`). Único cambio de código: el `keydown` de `src/app.js`.
+- **Verificado con:** `npx playwright test e2e/tareas -g "CA-33:|CA-34:|CA-35:|CA-36:"` (4 en verde) y `scripts/check.sh` en verde. La suite completa da 60 en verde y 5 en rojo, los mismos antes y después del cambio: CA-25, CA-30, CA-31, CA-32 y RN-13, de T-09. El arreglo de Esc se comprobó en Chromium con un script temporal fuera del repositorio, que falló antes del cambio y pasó después; también comprobó que el error de la fila se conserva al marcar otra y se va al abrir otra, y que reabrir B muestra el texto original.
+- **Aprendido:** un test en verde antes de empezar no demuestra la tarea: hay que probar también los casos vecinos.
+- **Queda:** el arreglo de Esc no tiene test automático en el repositorio, porque `e2e/` es de QA y no hay tests de pantalla en `tests/unit/`. QA debería añadirlo: con B en edición y "B2" escrito, Esc con el foco en otra fila mantiene la edición y "B2"; lo mismo con la confirmación. Otra cosa sin tocar: al redibujar con un error de edición visible, su `role="alert"` se crea de nuevo y un lector de pantalla podría anunciarlo otra vez (a mirar en T-10).
 
 ### T-07 · 01-11-2026 · developer
 - **Hecho:** borrar con confirmación en la fila: "Borrar" abre "¿Borrar esta tarea?" con "Borrar" (destructivo, nombre "Borrar tarea: B") y "Cancelar"; foco en Cancelar; Cancelar/Esc devuelven el foco a "Borrar" de la fila; confirmar usa `removeTask`, guarda y deja el foco en el campo de añadir. Casilla deshabilitada y "Editar" ausente en confirmación.

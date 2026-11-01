@@ -328,6 +328,8 @@ els.list.addEventListener("submit", (event) => {
 
 els.list.addEventListener("keydown", (event) => {
   if (event.key !== "Escape" || !state.openRow) return;
+  // Esc solo cancela desde la fila abierta: desde otra fila se perdería lo escrito (RN-14).
+  if (event.target.closest(".task-row")?.dataset.id !== state.openRow.id) return;
   if (state.openRow.mode === "edit") closeEdit();
   else if (state.openRow.mode === "confirm") closeConfirm();
 });
