@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 6 | 5 | 0 |
+| 11 | 7 | 4 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-07 · 01-11-2026 · developer
+- **Hecho:** borrar con confirmación en la fila: "Borrar" abre "¿Borrar esta tarea?" con "Borrar" (destructivo, nombre "Borrar tarea: B") y "Cancelar"; foco en Cancelar; Cancelar/Esc devuelven el foco a "Borrar" de la fila; confirmar usa `removeTask`, guarda y deja el foco en el campo de añadir. Casilla deshabilitada y "Editar" ausente en confirmación.
+- **Verificado con:** `npx playwright test e2e/tareas -g "CA-20:|CA-21:|CA-22:|CA-23:|CA-37:|CA-48:"` (6 en verde) y `scripts/check.sh` en verde.
+- **Aprendido:** `state.openRow` ya admitía `mode: "confirm"`, solo faltaba pintarlo.
+- **Queda:** una sola fila abierta (T-08), fallo de guardado (T-09), foco y estilos finos (T-10, T-11).
 
 ### T-06 · 01-11-2026 · developer
 - **Hecho:** edición en la fila: Editar abre campo con el texto seleccionado, Guardar/Enter (`editTask`), Cancelar/Esc, error de vacío bajo el campo con foco en él; lo escrito vive en `state.openRow`. Casilla deshabilitada mientras se edita.

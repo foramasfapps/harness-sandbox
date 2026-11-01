@@ -1,6 +1,6 @@
 // Pantalla de la lista de tareas. Un único estado en memoria; tras cada cambio se redibuja todo.
 import { loadTasks, saveTasks } from "./storage.js";
-import { MAX_TEXT_LENGTH, addTask, editTask, setCompleted } from "./tasks.js";
+import { MAX_TEXT_LENGTH, addTask, editTask, removeTask, setCompleted } from "./tasks.js";
 
 const loaded = loadTasks();
 
@@ -90,7 +90,52 @@ function buildEditRow(task, open) {
   return item;
 }
 
+function buildConfirmRow(task) {
+  const item = document.createElement("li");
+  item.className = "task-row is-confirming";
+  item.dataset.id = task.id;
+
+  const check = document.createElement("input");
+  check.type = "checkbox";
+  check.className = "task-check";
+  check.dataset.control = "check";
+  check.checked = task.completed;
+  check.disabled = true;
+  check.setAttribute("aria-label", task.text);
+
+  const text = document.createElement("span");
+  text.className = task.completed ? "task-text is-completed" : "task-text";
+  text.dataset.testid = "task-text";
+  text.textContent = task.text;
+
+  const question = document.createElement("p");
+  question.className = "confirm-question";
+  question.textContent = "¿Borrar esta tarea?";
+
+  const actions = document.createElement("div");
+  actions.className = "task-actions";
+  const del = document.createElement("button");
+  del.type = "button";
+  del.className = "button button-danger";
+  del.dataset.control = "confirm-delete";
+  del.textContent = "Borrar";
+  del.setAttribute("aria-label", `Borrar tarea: ${task.text}`);
+  const cancel = document.createElement("button");
+  cancel.type = "button";
+  cancel.className = "button";
+  cancel.dataset.control = "cancel-delete";
+  cancel.textContent = "Cancelar";
+  cancel.setAttribute("aria-label", `Cancelar borrado de: ${task.text}`);
+  actions.append(del, cancel);
+
+  item.append(check, text, question, actions);
+  return item;
+}
+
 function buildRow(task) {
+  if (state.openRow && state.openRow.id === task.id && state.openRow.mode === "confirm") {
+    return buildConfirmRow(task);
+  }
   if (state.openRow && state.openRow.id === task.id && state.openRow.mode === "edit") {
     return buildEditRow(task, state.openRow);
   }
@@ -223,6 +268,13 @@ function closeEdit() {
   render();
 }
 
+function closeConfirm() {
+  const id = state.openRow.id;
+  state.openRow = null;
+  state.focus = { id, control: "delete" };
+  render();
+}
+
 // Editar: abre la fila con el texto seleccionado; lo escrito vive en el estado.
 els.list.addEventListener("click", (event) => {
   const button = event.target.closest?.("button");
@@ -236,6 +288,19 @@ els.list.addEventListener("click", (event) => {
     render();
   } else if (control === "cancel" && state.openRow?.mode === "edit") {
     closeEdit();
+  } else if (control === "delete") {
+    state.openRow = { id, mode: "confirm" };
+    state.focus = { id, control: "cancel-delete" };
+    render();
+  } else if (control === "cancel-delete") {
+    closeConfirm();
+  } else if (control === "confirm-delete") {
+    state.tasks = removeTask(state.tasks, id);
+    state.readable = true;
+    saveTasks(state.tasks);
+    state.openRow = null;
+    state.focus = { field: true };
+    render();
   }
 });
 
@@ -262,7 +327,9 @@ els.list.addEventListener("submit", (event) => {
 });
 
 els.list.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && state.openRow?.mode === "edit") closeEdit();
+  if (event.key !== "Escape" || !state.openRow) return;
+  if (state.openRow.mode === "edit") closeEdit();
+  else if (state.openRow.mode === "confirm") closeConfirm();
 });
 
 render();

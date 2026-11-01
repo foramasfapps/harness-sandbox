@@ -206,3 +206,20 @@ h1 {
   grid-column: auto;
   grid-row: auto;
 }
+
+.button-danger {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.confirm-question {
+  grid-column: 2 / -1;
+  margin: 0;
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.task-row.is-confirming .task-actions {
+  grid-column: 2 / -1;
+  grid-row: auto;
+}

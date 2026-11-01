@@ -338,7 +338,7 @@
           "path": "e2e/tareas/borrar.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "El botón Borrar de la confirmación se llama 'Borrar tarea: B' (contradicción 3 de plan.md), no como dice hoy DP-05."
     },
     {
