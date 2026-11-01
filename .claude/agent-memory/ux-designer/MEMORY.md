@@ -1,0 +1,1 @@
+- [Tareas: decisiones de diseño](project_tareas-design.md) — fila con variantes, avisos, botón destructivo en contorno; pendiente de aprobar

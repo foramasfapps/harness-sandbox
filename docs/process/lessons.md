@@ -37,6 +37,27 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 - **Qué faltó:** en `/bootstrap`, una regla sobre el orden entre aprobar G0 y hacer merge del PR. Los documentos pasan a `Aprobado` dentro de un PR todavía sin fusionar, así que en `main` siguen sin aprobar hasta el merge.
 - **Cambio propuesto al arnés:** indicar en `/bootstrap` que G0 exige la CI terminada en verde y que el merge del PR la cierra.
 
+### `tareas` · `/feature` y `/discover` · 01-11-2026
+
+- **Qué falló:** se entregó `/feature tareas` en un bloque de terminal, y al ejecutarlo la shell respondió que no existía. `disable-model-invocation` impide lanzar la skill en nombre de la persona, así que cada fase exige un mensaje suyo, aunque ya la haya pedido.
+- **Qué sobró:** repasar en la entrevista temas ya cerrados por `vision.md` (problema, resultado y permisos): en esta app solo aportó recogerlos en las notas.
+- **Qué faltó:** el orden de las tareas era la regla con más casos, y la vista previa de diseño no la anticipaba. Una regla sobre cómo avisar de que los comandos del arnés se escriben en el chat.
+- **Cambio propuesto al arnés:** (1) indicar en `/feature` y en las skills que el siguiente comando se escribe en el chat, no en la terminal; (2) permitir a `/discover` saltarse los temas que `vision.md` ya resuelve.
+
+### `tareas` · `/spec` · 01-11-2026
+
+- **Qué falló:** el primer borrador tenía errores reales que el redactor no vio. CA-03 contradecía RN-01 por un ejemplo mal planteado en la entrevista, y CA-06 pasaba aunque no se recortaran los espacios. La revisión independiente los detectó. Al pedir a QA "no edites ningún archivo", tampoco pudo guardar su memoria.
+- **Qué sobró:** los criterios pasaron de 28 a 49 y las reglas de 12 a 15. Es mucho para una lista de tareas: la talla M no frena el volumen, y las dos revisiones se solaparon en varios huecos (dos pestañas, varias filas abiertas, carácter).
+- **Qué faltó:** un tope orientativo de criterios por talla y una pauta para agrupar variantes. También faltó una forma de marcar en la revisión lo que es "defecto" frente a "mejora opcional".
+- **Cambio propuesto al arnés:** (1) en `/spec`, dar un tope orientativo de criterios por talla; (2) pedir a `pm-reviewer` que no entre en cifras de CA y a `qa-evaluator` que no entre en alcance; (3) en el modo revisión de QA, permitir escribir en su memoria aunque no edite el PRD.
+
+### `tareas` · `/design` · 01-11-2026
+
+- **Qué falló:** el arnés se contradice en sus tests. Con criterios que necesitan navegador, los tests de aceptación en rojo dejan `check.sh` en rojo si van en `tests/acceptance/`, y `check.sh` no ejecuta Playwright si van en `e2e/`. Además, solo `/build` y `/close` indican el nombre de rama `feature/<feature>`, y `/discover` no lo dice: se creó `feat/tareas`. `e2e/hello.spec.js` también bloquea al Developer, que no puede editar `e2e/` aunque su tarea elimine el hola mundo.
+- **Qué sobró:** el arquitecto gastó 127.000 tokens y 9 minutos en 11 tareas de una lista de tareas, más que todo el resto de la fase. Parte de sus 12 contradicciones son detalles de redacción.
+- **Qué faltó:** en `/design`, una regla para las dudas de producto con respuesta obvia: de 9 de UX y 5 del arquitecto, solo 4 necesitaban a la persona. También faltó indicar que hay que hacer commit de los documentos antes de `/build`.
+- **Cambio propuesto al arnés:** (1) definir dónde viven los tests de aceptación de pantalla y cómo se ejecutan en `check.sh` sin bloquear al Developer; (2) fijar el nombre de rama en `/discover`; (3) dar a los agentes de `/design` un límite de esfuerzo según la talla.
+
 <!-- Una entrada por cierre:
 ### <feature> · <fecha>
 - **Qué falló:**

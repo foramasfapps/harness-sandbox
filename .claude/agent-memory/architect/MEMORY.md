@@ -1,0 +1,1 @@
+- [Tests en rojo y check.sh](project_trampas_arnes_tests.md) — rojo en tests/acceptance bloquea al Developer; check.sh no ejecuta e2e
