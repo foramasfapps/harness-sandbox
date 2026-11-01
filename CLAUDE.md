@@ -1,10 +1,8 @@
-# {{APP_NAME}}
-
-> Si esta línea y los marcadores `{{...}}` siguen sin rellenar, estás en el **repositorio plantilla**, no en una app: sigue `docs/process/template-maintenance.md` y no rellenes nada.
+# Lista de tareas
 
 ## Qué es la app
 
-{{Una o dos frases: qué problema resuelve y para quién. Lo que NO es.}}
+Una lista de tareas para una sola persona, con crear, editar, completar y borrar, que además sirve de ensayo del arnés. No es una herramienta de equipo ni un gestor de proyectos, y no hay cuentas ni sincronización.
 
 Visión completa: `docs/product/vision.md`.
 
@@ -16,17 +14,20 @@ Invariantes no negociables. Las que se pueden comprobar automáticamente están 
 - **Nunca claves ni secretos en el código**: variables de entorno.
 - **Nunca trabajar contra datos de producción**: los agentes usan el entorno local (`scripts/init.sh`).
 - **Commits pequeños**, con un solo cambio cada uno, en una rama; nunca directamente en `main`.
-- {{Regla propia de la app, p. ej. "Dinero en céntimos enteros, nunca floats".}}
+- **Las tareas no salen del navegador**: ni envíos por red ni scripts externos.
+- **El texto de una tarea siempre se muestra como texto**, nunca se interpreta como HTML.
+- **Ninguna tarea queda sin texto**, ni al crearla ni al editarla.
+- **La interfaz va en español.**
 
 ## Comandos
 
 | Para qué | Comando |
 |---|---|
-| Arrancar el entorno local | `scripts/init.sh` |
-| Comprobar todo (tipos, lint, tests, invariantes) | `scripts/check.sh` |
-| Desarrollo | `{{dev}}` |
-| Tests unitarios | `{{test}}` |
-| Tests e2e | `{{e2e}}` |
+| Preparar el entorno local (dependencias y navegador de tests) | `scripts/init.sh` |
+| Comprobar todo (tests e invariantes; no hay tipos ni lint) | `scripts/check.sh` |
+| Desarrollo, en http://127.0.0.1:4173 | `npm run dev` |
+| Tests unitarios y de aceptación | `npm test` |
+| Tests e2e | `npm run e2e` |
 
 ## Forma de trabajar
 

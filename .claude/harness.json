@@ -3,9 +3,9 @@
   "checks": {
     "typecheck": "",
     "lint": "",
-    "test": ""
+    "test": "npm test"
   },
-  "init": "",
+  "init": "npm ci && npx playwright install chromium",
   "protected_branches": ["main", "master"],
   "secret_files": [".env", ".env.*"],
   "secret_file_exceptions": [".env.example"],

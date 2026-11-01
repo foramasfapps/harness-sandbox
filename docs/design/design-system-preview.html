@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema de diseño</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #F7F8FA;
+        --surface: #FFFFFF;
+        --fg: #1B1F27;
+        --muted: #5A6472;
+        --border: #7F8998;
+        --accent: #1D5FCC;
+        --on-accent: #FFFFFF;
+        --ok: #1A7F4B;
+        --warn: #9A5B00;
+        --error: #C62828;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12151B;
+          --surface: #1B1F27;
+          --fg: #E8EBF0;
+          --muted: #A5AEBB;
+          --border: #6F7A8B;
+          --accent: #7FB0FF;
+          --on-accent: #0B1220;
+          --ok: #5BCB8F;
+          --warn: #E7B25A;
+          --error: #FF8A80;
+        }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
+      main { max-width: 560px; margin: 0 auto; padding: 24px 16px; }
+      h1 { font-size: 24px; font-weight: 600; margin: 0 0 24px; }
+      h2 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 24px 0 8px; }
+      p { margin: 0; }
+      .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+      .swatch { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface); font-size: 14px; }
+      .swatch i { display: block; height: 44px; border-bottom: 1px solid var(--border); }
+      .swatch span { display: block; padding: 4px 8px; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      button, input[type="text"] { min-height: 44px; border-radius: 8px; font: inherit; }
+      button { padding: 0 16px; cursor: pointer; background: var(--surface); color: var(--fg); border: 1px solid var(--border); }
+      button.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+      button.danger { color: var(--error); border-color: var(--error); }
+      input[type="text"] { flex: 1; min-width: 0; padding: 0 12px; background: var(--surface); color: var(--fg); border: 1px solid var(--border); }
+      input.invalid { border-color: var(--error); }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .form { display: flex; gap: 8px; }
+      .message { color: var(--error); font-size: 14px; margin-top: 4px; }
+      .tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+      .task { display: flex; align-items: center; gap: 8px; padding: 0 8px 0 4px; min-height: 60px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+      .check { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; flex: none; }
+      .check input { width: 20px; height: 20px; accent-color: var(--accent); margin: 0; }
+      .task-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+      .done .task-text { color: var(--muted); text-decoration: line-through; }
+      .empty { color: var(--muted); padding: 24px; text-align: center; border: 1px dashed var(--border); border-radius: 8px; }
+      @media (max-width: 480px) {
+        .task { flex-wrap: wrap; padding: 4px 8px 8px 4px; }
+        .task-text, .task input[type="text"] { flex-basis: calc(100% - 52px); }
+        .task button { flex: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Sistema de diseño</h1>
+
+      <h2>Color</h2>
+      <div class="swatches">
+        <div class="swatch"><i style="background: var(--bg)"></i><span>Fondo</span></div>
+        <div class="swatch"><i style="background: var(--surface)"></i><span>Superficie</span></div>
+        <div class="swatch"><i style="background: var(--fg)"></i><span>Texto</span></div>
+        <div class="swatch"><i style="background: var(--muted)"></i><span>Secundario</span></div>
+        <div class="swatch"><i style="background: var(--border)"></i><span>Borde</span></div>
+        <div class="swatch"><i style="background: var(--accent)"></i><span>Acento</span></div>
+        <div class="swatch"><i style="background: var(--ok)"></i><span>Correcto</span></div>
+        <div class="swatch"><i style="background: var(--warn)"></i><span>Aviso</span></div>
+        <div class="swatch"><i style="background: var(--error)"></i><span>Error</span></div>
+      </div>
+
+      <h2>Botones</h2>
+      <div class="row">
+        <button class="primary" type="button">Añadir</button>
+        <button type="button">Editar</button>
+        <button class="danger" type="button">Borrar</button>
+      </div>
+
+      <h2>Campo de texto</h2>
+      <div class="form">
+        <input type="text" aria-label="Nueva tarea" placeholder="¿Qué tienes que hacer?">
+        <button class="primary" type="button">Añadir</button>
+      </div>
+
+      <h2>Campo con error</h2>
+      <input class="invalid" style="width: 100%" type="text" aria-label="Nueva tarea con error" aria-invalid="true" aria-describedby="message">
+      <p class="message" id="message">Escribe algo para añadir la tarea.</p>
+
+      <h2>Filas de tarea</h2>
+      <ul class="tasks">
+        <li class="task">
+          <label class="check"><input type="checkbox" aria-label="Completar: Comprar pan"></label>
+          <span class="task-text">Comprar pan</span>
+          <button type="button">Editar</button>
+          <button class="danger" type="button">Borrar</button>
+        </li>
+        <li class="task done">
+          <label class="check"><input type="checkbox" checked aria-label="Completar: Llamar al dentista"></label>
+          <span class="task-text">Llamar al dentista</span>
+          <button type="button">Editar</button>
+          <button class="danger" type="button">Borrar</button>
+        </li>
+        <li class="task">
+          <label class="check"><input type="checkbox" aria-label="Completar: Regar las plantas"></label>
+          <input type="text" aria-label="Editar tarea" value="Regar las plantas">
+          <button class="primary" type="button">Guardar</button>
+          <button type="button">Cancelar</button>
+        </li>
+      </ul>
+
+      <h2>Lista vacía</h2>
+      <p class="empty">Añade tu primera tarea.</p>
+    </main>
+  </body>
+</html>
