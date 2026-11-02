@@ -223,3 +223,32 @@ h1 {
   grid-column: 2 / -1;
   grid-row: auto;
 }
+
+.task-check:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (min-width: 480px) {
+  .edit-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .edit-form .field {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .edit-form .task-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .edit-form .notice {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}

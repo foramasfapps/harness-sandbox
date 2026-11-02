@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 10 | 1 | 0 |
+| 11 | 11 | 0 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-11 · 02-11-2026 · developer
+- **Hecho:** estilos de fila según `states.md` (fallos 3, 4 y 5 de la verificación parcial 2). "Guardar" pasa a botón secundario (`src/app.js`, sin `button-primary`); regla `.task-check:disabled` con opacidad 0.5 y cursor `not-allowed`; desde 480 px el formulario de edición es una cuadrícula con el campo a la izquierda, "Guardar" y "Cancelar" a la derecha y el error debajo del campo (`src/styles.css`, solo clases). CA-44 ya pasaba.
+- **Verificado con:** `npx playwright test` completo: 91 en verde, 0 en rojo; `scripts/check.sh` en verde.
+- **Aprendido:** el error va dentro del formulario entre campo y botones en el DOM; la cuadrícula lo coloca sin cambiar el orden de tabulación.
+- **Queda:** decisiones de QA sin resolver (doble toque en "Editar" a 360 px; tarea guardada de 250 caracteres). La decisión 2 de `plan.md` conviene reflejarla en `/close` (T-10).
 
 ### T-10 · 02-11-2026 · developer
 - **Hecho:** CA-28 y CA-45 ya pasaban con lo construido en T-05 a T-09, sin cambios. Se corrige el fallo 2 de la verificación parcial 2 (DP-06): al redibujar con errores visibles, sus mensajes se volvían a insertar dentro de `role="alert"` y un lector los anunciaría otra vez. En `src/app.js`, el error de añadir ya no se reconstruye si está a la vista, y la fila en edición se reutiliza mientras siga abierta la misma edición: se pone al día en su sitio (`syncEditRow`) y las demás filas se colocan alrededor sin moverla (`placeRows`). El error sigue anunciándose al aparecer.

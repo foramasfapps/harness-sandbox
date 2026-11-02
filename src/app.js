@@ -113,7 +113,7 @@ function buildEditRow(task, open) {
   actions.className = "task-actions";
   const save = document.createElement("button");
   save.type = "submit";
-  save.className = "button button-primary";
+  save.className = "button";
   save.dataset.control = "save";
   save.textContent = "Guardar";
   save.setAttribute("aria-label", `Guardar cambios de: ${task.text}`);

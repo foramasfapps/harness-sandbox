@@ -491,7 +491,7 @@
           "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "Solo con clases en src/styles.css: la política de seguridad no admite estilos en línea."
     }
   ]
