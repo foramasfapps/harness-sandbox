@@ -455,7 +455,7 @@
           "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "RN-15 completa, también tras cerrar una fila por abrir otra (el foco va a la fila que se abre). Nombres según la tabla de Interfaces de plan.md."
     },
     {

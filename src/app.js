@@ -47,6 +47,39 @@ function persist() {
   state.saveFailed = !ok;
 }
 
+// Fila en edición ya pintada: se reutiliza mientras siga abierta la misma edición, para que
+// redibujar no vuelva a insertar su error y el lector no lo anuncie otra vez (DP-06).
+let editRowCache = null;
+
+function editErrorElement() {
+  const error = document.createElement("p");
+  error.className = "notice notice-error";
+  error.setAttribute("role", "alert");
+  error.textContent = EDIT_ERROR;
+  return error;
+}
+
+// Pone al día una fila en edición reutilizada sin tocar lo que no cambia.
+function syncEditRow(item, open) {
+  const field = item.querySelector('[data-control="field"]');
+  if (field.value !== open.value) field.value = open.value;
+  field.classList.toggle("is-invalid", open.error);
+  const error = item.querySelector('[role="alert"]');
+  if (open.error && !error) field.after(editErrorElement());
+  else if (!open.error && error) error.remove();
+  return item;
+}
+
+function editRowFor(task, open) {
+  const cache = editRowCache;
+  if (cache && cache.id === task.id && cache.text === task.text && cache.completed === task.completed) {
+    return syncEditRow(cache.item, open);
+  }
+  const item = buildEditRow(task, open);
+  editRowCache = { id: task.id, text: task.text, completed: task.completed, item };
+  return item;
+}
+
 function buildEditRow(task, open) {
   const item = document.createElement("li");
   item.className = "task-row";
@@ -74,13 +107,7 @@ function buildEditRow(task, open) {
   field.setAttribute("aria-label", `Editar tarea: ${task.text}`);
   form.append(field);
 
-  if (open.error) {
-    const error = document.createElement("p");
-    error.className = "notice notice-error";
-    error.setAttribute("role", "alert");
-    error.textContent = EDIT_ERROR;
-    form.append(error);
-  }
+  if (open.error) form.append(editErrorElement());
 
   const actions = document.createElement("div");
   actions.className = "task-actions";
@@ -150,7 +177,7 @@ function buildRow(task) {
     return buildConfirmRow(task);
   }
   if (state.openRow && state.openRow.id === task.id && state.openRow.mode === "edit") {
-    return buildEditRow(task, state.openRow);
+    return editRowFor(task, state.openRow);
   }
   const item = document.createElement("li");
   item.className = "task-row";
@@ -206,16 +233,33 @@ function applyFocus() {
   }
 }
 
+// Coloca las filas en la lista. Si una ya está dentro (la fila en edición reutilizada), se queda
+// en su sitio y las demás se ponen alrededor: moverla la volvería a insertar y se anunciaría su
+// error otra vez (DP-06).
+function placeRows(rows) {
+  const kept = rows.find((row) => row.parentNode === els.list);
+  if (!kept) {
+    els.list.replaceChildren(...rows);
+    return;
+  }
+  for (const child of [...els.list.children]) {
+    if (child !== kept) child.remove();
+  }
+  const index = rows.indexOf(kept);
+  kept.before(...rows.slice(0, index));
+  kept.after(...rows.slice(index + 1));
+}
+
 function render() {
   // Los contenedores existen desde el principio para que el lector anuncie lo que entra (DP-06).
-  // El error va justo bajo el formulario y el aviso de lectura después; el de lectura solo se
-  // reconstruye si cambia, para no anunciarlo de nuevo en cada redibujado.
-  if (state.addError) {
+  // El error va justo bajo el formulario y el aviso de lectura después. Ninguno se reconstruye si
+  // ya está a la vista, para no anunciarlo de nuevo en cada redibujado.
+  if (state.addError && els.addErrorSlot.children.length === 0) {
     const error = document.createElement("p");
     error.className = "notice notice-error";
     error.textContent = ADD_ERROR;
     els.addErrorSlot.replaceChildren(error);
-  } else {
+  } else if (!state.addError) {
     els.addErrorSlot.replaceChildren();
   }
   els.addField.classList.toggle("is-invalid", state.addError);
@@ -246,7 +290,8 @@ function render() {
     els.emptySlot.replaceChildren();
   }
   els.list.hidden = state.tasks.length === 0;
-  els.list.replaceChildren(...state.tasks.map(buildRow));
+  if (state.openRow?.mode !== "edit") editRowCache = null;
+  placeRows(state.tasks.map(buildRow));
   applyFocus();
 }
 

@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 9 | 2 | 0 |
+| 11 | 10 | 1 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-10 · 02-11-2026 · developer
+- **Hecho:** CA-28 y CA-45 ya pasaban con lo construido en T-05 a T-09, sin cambios. Se corrige el fallo 2 de la verificación parcial 2 (DP-06): al redibujar con errores visibles, sus mensajes se volvían a insertar dentro de `role="alert"` y un lector los anunciaría otra vez. En `src/app.js`, el error de añadir ya no se reconstruye si está a la vista, y la fila en edición se reutiliza mientras siga abierta la misma edición: se pone al día en su sitio (`syncEditRow`) y las demás filas se colocan alrededor sin moverla (`placeRows`). El error sigue anunciándose al aparecer.
+- **Verificado con:** `npx playwright test e2e/tareas -g "CA-28:|CA-45:"` (3 en verde), `e2e/tareas/hallazgos-qa.spec.js` y `hallazgos-qa-filas.spec.js` (los dos de DP-06 en verde; quedan en rojo los 3 de `states.md`, de T-11) y `scripts/check.sh` en verde. Suite completa: 88 en verde y 3 en rojo, los de T-11. Con un script temporal fuera del repositorio se comprobó además que los dos errores sí se anuncian al aparecer, y que con la fila reutilizada lo escrito se conserva al marcar otras filas, Guardar, Esc y reabrir funcionan, el error se va al cerrar y añadir con una edición abierta no la toca.
+- **Aprendido:** mover un nodo dentro de la lista cuenta como insertarlo de nuevo; para no re-anunciar hay que dejar la fila quieta y colocar las demás alrededor.
+- **Queda:** la decisión 2 de `plan.md` dice "se redibuja la lista entera"; ahora es así salvo la fila en edición, que se reutiliza. Conviene reflejarlo en `/close`. Para UX: repetir Guardar o Añadir vacío con el error ya visible no lo vuelve a anunciar (se toma DP-06 al pie de la letra, "al aparecer").
 
 ### T-09 · 02-11-2026 · developer
 - **Hecho:** aviso "No se han podido guardar los cambios." (`#save-slot`, `role="status"`, después del de lectura, DP-08) y `persist()` en `src/app.js`, usado al añadir, marcar, editar y borrar: solo un guardado correcto pone `readable = true` (RN-13, también fallo 2 de la verificación 1) y el siguiente guardado correcto quita el aviso (CA-31). Cubre CA-25, CA-30, CA-31 y CA-32.
