@@ -13,6 +13,8 @@ const state = {
   focus: null,
   // Error de la zona de añadir.
   addError: false,
+  // El último guardado falló (CA-25); el siguiente correcto quita el aviso (CA-31).
+  saveFailed: false,
 };
 
 const EDIT_ERROR = "Escribe algo para guardar la tarea.";
@@ -20,11 +22,14 @@ const EDIT_ERROR = "Escribe algo para guardar la tarea.";
 const READ_WARNING =
   "No se han podido leer tus tareas guardadas. Si haces un cambio, se reemplazarán.";
 
+const SAVE_WARNING = "No se han podido guardar los cambios.";
+
 const ADD_ERROR = "Escribe algo para añadir la tarea.";
 
 const els = {
   addErrorSlot: document.querySelector("#add-error-slot"),
   readSlot: document.querySelector("#read-slot"),
+  saveSlot: document.querySelector("#save-slot"),
   emptySlot: document.querySelector("#empty-slot"),
   list: document.querySelector("#task-list"),
   addField: document.querySelector("#add-field"),
@@ -33,6 +38,14 @@ const els = {
 
 // El límite sale de MAX_TEXT_LENGTH para que el 200 esté en un solo sitio.
 els.addField.maxLength = MAX_TEXT_LENGTH;
+
+// Guarda la lista. Solo un guardado correcto quita el aviso de lectura (RN-13, CA-27) y el de
+// guardado (CA-31); si falla, lo ilegible sigue donde estaba y se avisa (CA-25).
+function persist() {
+  const ok = saveTasks(state.tasks);
+  if (ok) state.readable = true;
+  state.saveFailed = !ok;
+}
 
 function buildEditRow(task, open) {
   const item = document.createElement("li");
@@ -214,6 +227,15 @@ function render() {
   } else if (state.readable) {
     els.readSlot.replaceChildren();
   }
+  // Aviso de guardado: después del de lectura (DP-08) y sin reconstruirlo si ya está.
+  if (state.saveFailed && els.saveSlot.children.length === 0) {
+    const warning = document.createElement("p");
+    warning.className = "notice notice-warn";
+    warning.textContent = SAVE_WARNING;
+    els.saveSlot.replaceChildren(warning);
+  } else if (!state.saveFailed) {
+    els.saveSlot.replaceChildren();
+  }
   // El mensaje de vacío solo existe en el DOM cuando toca.
   if (state.tasks.length === 0) {
     const empty = document.createElement("p");
@@ -242,8 +264,7 @@ els.addForm.addEventListener("submit", (event) => {
   state.tasks = next;
   state.addError = false;
   // El primer cambio guardado reemplaza lo ilegible (CA-27).
-  state.readable = true;
-  saveTasks(state.tasks);
+  persist();
   els.addField.value = "";
   state.focus = { field: true };
   render();
@@ -255,8 +276,7 @@ els.list.addEventListener("change", (event) => {
   if (!check.classList?.contains("task-check")) return;
   const id = check.closest(".task-row").dataset.id;
   state.tasks = setCompleted(state.tasks, id, check.checked);
-  state.readable = true;
-  saveTasks(state.tasks);
+  persist();
   state.focus = { id, control: "check" };
   render();
 });
@@ -296,8 +316,7 @@ els.list.addEventListener("click", (event) => {
     closeConfirm();
   } else if (control === "confirm-delete") {
     state.tasks = removeTask(state.tasks, id);
-    state.readable = true;
-    saveTasks(state.tasks);
+    persist();
     state.openRow = null;
     state.focus = { field: true };
     render();
@@ -321,8 +340,7 @@ els.list.addEventListener("submit", (event) => {
     return;
   }
   state.tasks = next;
-  state.readable = true;
-  saveTasks(state.tasks);
+  persist();
   closeEdit();
 });
 

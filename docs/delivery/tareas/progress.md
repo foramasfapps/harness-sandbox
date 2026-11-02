@@ -6,7 +6,7 @@
 
 | Tareas | Passing | Failing | Blocked |
 |---|---|---|---|
-| 11 | 8 | 3 | 0 |
+| 11 | 9 | 2 | 0 |
 
 ## Bloqueos
 
@@ -24,6 +24,12 @@ Lo que contradice la spec o el plan, o un test que parece mal. No se improvisa: 
 - **Aprendido:**
 - **Queda:**
 -->
+
+### T-09 · 02-11-2026 · developer
+- **Hecho:** aviso "No se han podido guardar los cambios." (`#save-slot`, `role="status"`, después del de lectura, DP-08) y `persist()` en `src/app.js`, usado al añadir, marcar, editar y borrar: solo un guardado correcto pone `readable = true` (RN-13, también fallo 2 de la verificación 1) y el siguiente guardado correcto quita el aviso (CA-31). Cubre CA-25, CA-30, CA-31 y CA-32.
+- **Verificado con:** `npx playwright test e2e/tareas -g "CA-25:|CA-30:|CA-31:|CA-32:"` (4 en verde), `e2e/tareas/hallazgos-qa.spec.js` y `hallazgos-qa-filas.spec.js` (RN-13 en verde) y `scripts/check.sh` en verde. Suite de `e2e/tareas`: 87 en verde y 4 en rojo, todos de T-10 y T-11 (DP-06 y tres de `states.md`).
+- **Aprendido:** había cuatro caminos con el mismo fallo; centralizarlos en `persist()` evita que uno quede suelto.
+- **Queda:** DP-06 (T-10) y los estilos de Guardar, casilla deshabilitada y posición de botones (T-11).
 
 ### T-08 · 01-11-2026 · developer
 - **Hecho:** los CA-33 a CA-36 ya pasaban con lo construido en T-06 y T-07, sin cambios. Se corrige un fallo que esos tests no ven: Esc se escuchaba en toda la lista, así que con B en edición y "B2" escrito, un Esc con el foco en la casilla o un botón de otra fila cancelaba B y perdía lo escrito (también en la confirmación). Ahora Esc solo actúa desde la fila abierta (decisión 5 de `plan.md`). Único cambio de código: el `keydown` de `src/app.js`.

@@ -423,7 +423,7 @@
           "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
         }
       ],
-      "status": "failing",
+      "status": "passing",
       "notes": "CA-25 recorre añadir, completar, editar y borrar. Si no se puede ni leer ni guardar, se ven los dos avisos: lectura primero (DP-08)."
     },
     {
