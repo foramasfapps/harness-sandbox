@@ -37,6 +37,35 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 - **Qué faltó:** en `/bootstrap`, una regla sobre el orden entre aprobar G0 y hacer merge del PR. Los documentos pasan a `Aprobado` dentro de un PR todavía sin fusionar, así que en `main` siguen sin aprobar hasta el merge.
 - **Cambio propuesto al arnés:** indicar en `/bootstrap` que G0 exige la CI terminada en verde y que el merge del PR la cierra.
 
+### `tareas` · `/feature` y `/discover` · 01-11-2026
+
+- **Qué falló:** se entregó `/feature tareas` en un bloque de terminal, y al ejecutarlo la shell respondió que no existía. `disable-model-invocation` impide lanzar la skill en nombre de la persona, así que cada fase exige un mensaje suyo, aunque ya la haya pedido.
+- **Qué sobró:** repasar en la entrevista temas ya cerrados por `vision.md` (problema, resultado y permisos): en esta app solo aportó recogerlos en las notas.
+- **Qué faltó:** el orden de las tareas era la regla con más casos, y la vista previa de diseño no la anticipaba. Una regla sobre cómo avisar de que los comandos del arnés se escriben en el chat.
+- **Cambio propuesto al arnés:** (1) indicar en `/feature` y en las skills que el siguiente comando se escribe en el chat, no en la terminal; (2) permitir a `/discover` saltarse los temas que `vision.md` ya resuelve.
+
+### `tareas` · `/spec` · 01-11-2026
+
+- **Qué falló:** el primer borrador tenía errores reales que el redactor no vio. CA-03 contradecía RN-01 por un ejemplo mal planteado en la entrevista, y CA-06 pasaba aunque no se recortaran los espacios. La revisión independiente los detectó. Al pedir a QA "no edites ningún archivo", tampoco pudo guardar su memoria.
+- **Qué sobró:** los criterios pasaron de 28 a 49 y las reglas de 12 a 15. Es mucho para una lista de tareas: la talla M no frena el volumen, y las dos revisiones se solaparon en varios huecos (dos pestañas, varias filas abiertas, carácter).
+- **Qué faltó:** un tope orientativo de criterios por talla y una pauta para agrupar variantes. También faltó una forma de marcar en la revisión lo que es "defecto" frente a "mejora opcional".
+- **Cambio propuesto al arnés:** (1) en `/spec`, dar un tope orientativo de criterios por talla; (2) pedir a `pm-reviewer` que no entre en cifras de CA y a `qa-evaluator` que no entre en alcance; (3) en el modo revisión de QA, permitir escribir en su memoria aunque no edite el PRD.
+
+### `tareas` · `/design` · 01-11-2026
+
+- **Qué falló:** el arnés se contradice en sus tests. Con criterios que necesitan navegador, los tests de aceptación en rojo dejan `check.sh` en rojo si van en `tests/acceptance/`, y `check.sh` no ejecuta Playwright si van en `e2e/`. Además, solo `/build` y `/close` indican el nombre de rama `feature/<feature>`, y `/discover` no lo dice: se creó `feat/tareas`. `e2e/hello.spec.js` también bloquea al Developer, que no puede editar `e2e/` aunque su tarea elimine el hola mundo.
+- **Qué sobró:** el arquitecto gastó 127.000 tokens y 9 minutos en 11 tareas de una lista de tareas, más que todo el resto de la fase. Parte de sus 12 contradicciones son detalles de redacción.
+- **Qué faltó:** en `/design`, una regla para las dudas de producto con respuesta obvia: de 9 de UX y 5 del arquitecto, solo 4 necesitaban a la persona. También faltó indicar que hay que hacer commit de los documentos antes de `/build`.
+- **Cambio propuesto al arnés:** (1) definir dónde viven los tests de aceptación de pantalla y cómo se ejecutan en `check.sh` sin bloquear al Developer; (2) fijar el nombre de rama en `/discover`; (3) dar a los agentes de `/design` un límite de esfuerzo según la talla.
+
+### `tareas` · `/build` · 02-11-2026
+
+- **Qué falló:** el `verify` de cada tarea solo filtra por `CA-xx:`, así que los tests que añade QA en sus verificaciones no los ejecutaba nadie hasta que el orquestador lo pidió a mano. `scope_guard.py` no deja a QA escribir en el scratchpad. Un límite de uso cortó la segunda verificación de QA, y se retomó sin perder trabajo.
+- **Qué sobró:** las dos verificaciones parciales y la final gastaron unos 505.000 tokens, frente a unos 1.050.000 de las 12 invocaciones del Developer y 135.000 de los tests de aceptación. Para una talla M con 49 CA, una verificación parcial más la final habrían bastado.
+- **Qué faltó:** decir en `tasks.json` cómo se ejecutan los tests nuevos de QA, por ejemplo con un `verify` por archivo y no por ID. También una regla para el `favicon.ico`: el Chromium reducido de Playwright no lo pide y el completo sí.
+- **Valor real:** QA encontró 14 fallos que los CA no veían, de ellos 1 alto (404 en consola) y 2 medios (RN-13 y avisos sin anunciar). Ninguno llegó a G3. Developer y QA nunca necesitaron a la persona, y las 11 tareas se cerraron sin bloqueos.
+- **Cambio propuesto al arnés:** (1) que `/build` ejecute la suite e2e completa al comprobar cada tarea, no solo su `verify`; (2) bajar a una verificación parcial en talla M; (3) permitir a QA escribir en el scratchpad.
+
 <!-- Una entrada por cierre:
 ### <feature> · <fecha>
 - **Qué falló:**

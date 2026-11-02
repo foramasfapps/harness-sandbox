@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'">
     <title>Lista de tareas</title>
+    <link rel="icon" href="favicon.ico" sizes="16x16">
+    <link rel="stylesheet" href="src/styles.css">
   </head>
   <body>
-    <main>
-      <h1 id="greeting"></h1>
+    <main class="column">
+      <h1>Tareas</h1>
+      <form id="add-form" class="add-form" novalidate>
+        <input id="add-field" class="field" type="text" name="text" aria-label="Nueva tarea" placeholder="Escribe una tarea" autocomplete="off">
+        <button type="submit" class="button button-primary">Añadir</button>
+      </form>
+      <div id="notices" class="notices">
+        <div id="add-error-slot" role="alert"></div>
+        <div id="read-slot" role="status"></div>
+        <div id="save-slot" role="status"></div>
+      </div>
+      <div id="empty-slot"></div>
+      <ul id="task-list" class="task-list" aria-label="Tareas"></ul>
     </main>
     <script type="module" src="src/app.js"></script>
   </body>

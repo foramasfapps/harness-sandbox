@@ -1,0 +1,513 @@
+{
+  "_readme": "Lista de tareas de la funcionalidad. La escribe el Arquitecto en /design y se aprueba en G2. Los agentes solo cambian 'status' (y 'acceptance_tests' en el caso de QA); añadir, borrar o reescribir tareas exige volver a G2. 'status': failing | passing | blocked. 'difficulty': normal | hard (hard sube el modelo y el esfuerzo del Developer). 'level': unit | integration | e2e.",
+  "feature": "tareas",
+  "prd": "docs/product/prd-01-tareas.md",
+  "approved": "01-11-2026",
+  "tasks": [
+    {
+      "id": "T-01",
+      "title": "Módulo src/tasks.js: reglas de las tareas",
+      "covers": [],
+      "depends_on": [],
+      "difficulty": "normal",
+      "verify": "node --test tests/unit/tasks.test.js (orden RN-01 a RN-03 con las listas de CA-03, CA-10, CA-11, CA-12 y CA-47; recorte y vacío RN-05; edición RN-04; repetidas RN-09; los 10 valores de CA-29 en isValidTaskList)",
+      "acceptance_tests": [],
+      "status": "passing",
+      "notes": "Sin CA directos: sus reglas se demuestran en T-03 a T-08. Interfaz en plan.md. Con la opción A de la pregunta 3: isValidTaskList rechaza también text de solo espacios e id vacío o repetido."
+    },
+    {
+      "id": "T-02",
+      "title": "Módulo src/storage.js: leer y guardar en localStorage",
+      "covers": [],
+      "depends_on": [
+        "T-01"
+      ],
+      "difficulty": "normal",
+      "verify": "node --test tests/unit/storage.test.js (con un window falso: clave inexistente, [], 'null', JSON inválido, setItem que lanza y acceso a localStorage que lanza; ninguna llamada lanza errores y nada escribe al leer)",
+      "acceptance_tests": [],
+      "status": "passing",
+      "notes": "Sin CA directos: se demuestra en T-03, T-04 y T-09. El módulo no toca window al importarse."
+    },
+    {
+      "id": "T-03",
+      "title": "Pantalla base: index.html, src/styles.css con tokens, y src/app.js con carga, lista, mensaje de vacío y aviso de lectura",
+      "covers": [
+        "CA-01",
+        "CA-26",
+        "CA-29"
+      ],
+      "depends_on": [
+        "T-02"
+      ],
+      "difficulty": "normal",
+      "verify": "npx playwright test e2e/tareas -g \"CA-01:|CA-26:|CA-29:|smoke\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-01",
+          "level": "e2e",
+          "path": "e2e/tareas/carga.spec.js"
+        },
+        {
+          "ca": "CA-26",
+          "level": "e2e",
+          "path": "e2e/tareas/carga.spec.js"
+        },
+        {
+          "ca": "CA-29",
+          "level": "e2e",
+          "path": "e2e/tareas/carga.spec.js"
+        },
+        {
+          "ca": "CA-29",
+          "level": "e2e",
+          "path": "e2e/tareas/consola-navegador-completo.spec.js"
+        },
+        {
+          "ca": "smoke",
+          "level": "e2e",
+          "path": "e2e/tareas/smoke.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "Elimina el Hola, mundo. QA ya habrá sustituido e2e/hello.spec.js por e2e/tareas/smoke.spec.js. Pinta las filas pendientes y completadas con el contrato de Interfaces; los botones aún no hacen nada. Deja preparados el estado único y el foco tras redibujar (decisiones 2 y 3). Reabierta por QA el 01-11-2026: ver qa-report.md (404 de favicon.ico en CA-29; avisos DP-06; estilo y contraste)."
+    },
+    {
+      "id": "T-04",
+      "title": "Añadir tareas: formulario, validación, límite de 200 y guardado",
+      "covers": [
+        "CA-02",
+        "CA-03",
+        "CA-04",
+        "CA-05",
+        "CA-06",
+        "CA-07",
+        "CA-08",
+        "CA-27",
+        "CA-42",
+        "CA-43",
+        "CA-46",
+        "CA-49"
+      ],
+      "depends_on": [
+        "T-03"
+      ],
+      "difficulty": "normal",
+      "verify": "npx playwright test e2e/tareas -g \"CA-02:|CA-03:|CA-04:|CA-05:|CA-06:|CA-07:|CA-08:|CA-27:|CA-42:|CA-43:|CA-46:|CA-49:\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-02",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-03",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-04",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-05",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-06",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-07",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-08",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-27",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-42",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-43",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-46",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        },
+        {
+          "ca": "CA-49",
+          "level": "e2e",
+          "path": "e2e/tareas/anadir.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "Comprobar en consola que el envío del formulario no choca con form-action 'none' (riesgo en plan.md)."
+    },
+    {
+      "id": "T-05",
+      "title": "Completar y desmarcar desde la casilla",
+      "covers": [
+        "CA-10",
+        "CA-11",
+        "CA-12",
+        "CA-38",
+        "CA-47"
+      ],
+      "depends_on": [
+        "T-04"
+      ],
+      "difficulty": "normal",
+      "verify": "npx playwright test e2e/tareas -g \"CA-10:|CA-11:|CA-12:|CA-38:|CA-47:\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-10",
+          "level": "e2e",
+          "path": "e2e/tareas/completar.spec.js"
+        },
+        {
+          "ca": "CA-11",
+          "level": "e2e",
+          "path": "e2e/tareas/completar.spec.js"
+        },
+        {
+          "ca": "CA-12",
+          "level": "e2e",
+          "path": "e2e/tareas/completar.spec.js"
+        },
+        {
+          "ca": "CA-38",
+          "level": "e2e",
+          "path": "e2e/tareas/completar.spec.js"
+        },
+        {
+          "ca": "CA-47",
+          "level": "e2e",
+          "path": "e2e/tareas/completar.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": ""
+    },
+    {
+      "id": "T-06",
+      "title": "Editar en la fila: abrir, guardar, cancelar y errores",
+      "covers": [
+        "CA-09",
+        "CA-13",
+        "CA-14",
+        "CA-15",
+        "CA-16",
+        "CA-17",
+        "CA-18",
+        "CA-19",
+        "CA-24",
+        "CA-39",
+        "CA-40",
+        "CA-41"
+      ],
+      "depends_on": [
+        "T-05"
+      ],
+      "difficulty": "normal",
+      "verify": "npx playwright test e2e/tareas -g \"CA-09:|CA-13:|CA-14:|CA-15:|CA-16:|CA-17:|CA-18:|CA-19:|CA-24:|CA-39:|CA-40:|CA-41:\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-09",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-13",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-14",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-15",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-16",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-17",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-18",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-19",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-24",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-39",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-40",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        },
+        {
+          "ca": "CA-41",
+          "level": "e2e",
+          "path": "e2e/tareas/editar.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "Con la opción A de la pregunta 1: el texto queda seleccionado al abrir. Lo escrito se guarda en el estado, no solo en el campo."
+    },
+    {
+      "id": "T-07",
+      "title": "Borrar con confirmación en la fila",
+      "covers": [
+        "CA-20",
+        "CA-21",
+        "CA-22",
+        "CA-23",
+        "CA-37",
+        "CA-48"
+      ],
+      "depends_on": [
+        "T-04"
+      ],
+      "difficulty": "normal",
+      "verify": "npx playwright test e2e/tareas -g \"CA-20:|CA-21:|CA-22:|CA-23:|CA-37:|CA-48:\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-20",
+          "level": "e2e",
+          "path": "e2e/tareas/borrar.spec.js"
+        },
+        {
+          "ca": "CA-21",
+          "level": "e2e",
+          "path": "e2e/tareas/borrar.spec.js"
+        },
+        {
+          "ca": "CA-22",
+          "level": "e2e",
+          "path": "e2e/tareas/borrar.spec.js"
+        },
+        {
+          "ca": "CA-23",
+          "level": "e2e",
+          "path": "e2e/tareas/borrar.spec.js"
+        },
+        {
+          "ca": "CA-37",
+          "level": "e2e",
+          "path": "e2e/tareas/borrar.spec.js"
+        },
+        {
+          "ca": "CA-48",
+          "level": "e2e",
+          "path": "e2e/tareas/borrar.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "El botón Borrar de la confirmación se llama 'Borrar tarea: B' (contradicción 3 de plan.md), no como dice hoy DP-05."
+    },
+    {
+      "id": "T-08",
+      "title": "Una sola fila abierta: cancelar la anterior, casilla deshabilitada y repetidas",
+      "covers": [
+        "CA-33",
+        "CA-34",
+        "CA-35",
+        "CA-36"
+      ],
+      "depends_on": [
+        "T-06",
+        "T-07"
+      ],
+      "difficulty": "hard",
+      "verify": "npx playwright test e2e/tareas -g \"CA-33:|CA-34:|CA-35:|CA-36:\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-33",
+          "level": "e2e",
+          "path": "e2e/tareas/una-fila-abierta.spec.js"
+        },
+        {
+          "ca": "CA-34",
+          "level": "e2e",
+          "path": "e2e/tareas/una-fila-abierta.spec.js"
+        },
+        {
+          "ca": "CA-35",
+          "level": "e2e",
+          "path": "e2e/tareas/una-fila-abierta.spec.js"
+        },
+        {
+          "ca": "CA-36",
+          "level": "e2e",
+          "path": "e2e/tareas/una-fila-abierta.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "Con la opción A de la pregunta 2: marcar la casilla de otra fila tampoco cierra la abierta ni pierde lo escrito."
+    },
+    {
+      "id": "T-09",
+      "title": "Fallos de guardado: aviso, recuperación y almacenamiento bloqueado",
+      "covers": [
+        "CA-25",
+        "CA-30",
+        "CA-31",
+        "CA-32"
+      ],
+      "depends_on": [
+        "T-06",
+        "T-07"
+      ],
+      "difficulty": "normal",
+      "verify": "npx playwright test e2e/tareas -g \"CA-25:|CA-30:|CA-31:|CA-32:\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-25",
+          "level": "e2e",
+          "path": "e2e/tareas/fallos-guardado.spec.js"
+        },
+        {
+          "ca": "CA-30",
+          "level": "e2e",
+          "path": "e2e/tareas/fallos-guardado.spec.js"
+        },
+        {
+          "ca": "CA-31",
+          "level": "e2e",
+          "path": "e2e/tareas/fallos-guardado.spec.js"
+        },
+        {
+          "ca": "CA-32",
+          "level": "e2e",
+          "path": "e2e/tareas/fallos-guardado.spec.js"
+        },
+        {
+          "ca": "RN-13",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "DP-06",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-final.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-final.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "CA-25 recorre añadir, completar, editar y borrar. Si no se puede ni leer ni guardar, se ven los dos avisos: lectura primero (DP-08)."
+    },
+    {
+      "id": "T-10",
+      "title": "Teclado, foco y nombres para lector de pantalla",
+      "covers": [
+        "CA-28",
+        "CA-45"
+      ],
+      "depends_on": [
+        "T-08"
+      ],
+      "difficulty": "hard",
+      "verify": "npx playwright test e2e/tareas -g \"CA-28:|CA-45:\"",
+      "acceptance_tests": [
+        {
+          "ca": "CA-28",
+          "level": "e2e",
+          "path": "e2e/tareas/teclado-accesibilidad.spec.js"
+        },
+        {
+          "ca": "CA-45",
+          "level": "e2e",
+          "path": "e2e/tareas/teclado-accesibilidad.spec.js"
+        },
+        {
+          "ca": "DP-06",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "RN-15 completa, también tras cerrar una fila por abrir otra (el foco va a la fila que se abre). Nombres según la tabla de Interfaces de plan.md."
+    },
+    {
+      "id": "T-11",
+      "title": "Estilos de fila y móvil según states.md",
+      "covers": [
+        "CA-44"
+      ],
+      "depends_on": [
+        "T-08"
+      ],
+      "difficulty": "normal",
+      "verify": "npx playwright test e2e/tareas -g \"CA-44:\" y revisar a 360 px las filas normal, en edición y en confirmación con 200 caracteres sin espacios",
+      "acceptance_tests": [
+        {
+          "ca": "CA-44",
+          "level": "e2e",
+          "path": "e2e/tareas/movil.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-final.spec.js"
+        }
+      ],
+      "status": "passing",
+      "notes": "Solo con clases en src/styles.css: la política de seguridad no admite estilos en línea."
+    }
+  ]
+}
