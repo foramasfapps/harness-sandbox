@@ -53,7 +53,8 @@ El modo claro u oscuro sigue la preferencia del dispositivo (`prefers-color-sche
 | Botón | Para ejecutar una acción | Principal (una por vista), secundario, destructivo |
 | Campo de texto | Para escribir o editar una tarea | Normal, con error |
 | Casilla | Para marcar una tarea como completada | Marcada, sin marcar |
-| Fila de tarea | Para cada tarea de la lista | Pendiente, completada (texto en `--muted` y tachado), editando |
+| Fila de tarea | Para cada tarea de la lista | Pendiente, completada (texto en `--muted` y tachado), editando, editando con error, confirmando borrado; en edición y confirmación la casilla se atenúa y se deshabilita |
+| Aviso | Para avisos de la página que no dependen de un campo, como no poder leer o guardar | Bloque bajo el formulario con borde `--warn`, fondo `--surface`, icono y texto en `--fg`; sin botón de cerrar |
 
 ## Patrones de pantalla
 
@@ -62,7 +63,7 @@ El modo claro u oscuro sigue la preferencia del dispositivo (`prefers-color-sche
 - **Detalle:** no hay; una tarea se edita en su propia fila.
 - **Vacío:** una frase breve que invita a añadir la primera tarea.
 - **Error:** un mensaje junto al campo que dice cómo arreglarlo; usa `--error` además de texto, nunca solo color.
-- **Confirmación:** sin pantallas extra; el resultado se ve en la propia lista.
+- **Confirmación:** sin pantallas extra. Lo irreversible, como borrar, se confirma en la propia fila con "Borrar" destructivo y "Cancelar".
 
 ## Accesibilidad
 
@@ -75,3 +76,12 @@ El modo claro u oscuro sigue la preferencia del dispositivo (`prefers-color-sche
 ## Dispositivos
 
 Móvil primero: una columna que en escritorio se limita a 560 px de ancho y se centra.
+
+## Cambios en la v1.1
+
+Fecha: 02-11-2026. Motivo: lo construido en la funcionalidad `tareas` (`docs/design/tareas/states.md`).
+
+- La fila de tarea suma los estados "editando con error" y "confirmando borrado", con la casilla deshabilitada en ambos.
+- Nuevo componente "Aviso" para los avisos de lectura y guardado.
+- La confirmación de borrado se hace en la fila.
+- "Guardar" es botón secundario: "Añadir" es el único principal de la pantalla. La vista previa se ajusta a esto.

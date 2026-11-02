@@ -23,3 +23,15 @@ Opción A: es la que cumple el encargo con menos piezas.
 - **Se gana:** nada que compilar, alojar ni mantener en producción.
 - **Se pierde:** las tareas no pasan a otro dispositivo y se borran con los datos del navegador. El ensayo no ejercitará migraciones, entornos con base de datos ni datos semilla.
 - **Para revertirla:** sustituir `src/storage.js` por llamadas a un servidor y añadir cuentas y un paso para traer los datos existentes.
+
+## Cambios
+
+### 02-11-2026 · Consecuencias observadas al construir `tareas`
+
+La decisión se mantiene. Construir el PRD 01 confirmó lo previsto y sacó a la luz tres costes que no estaban escritos:
+
+- **Sin framework, el redibujado y la accesibilidad se resuelven a mano.** Redibujar toda la lista hacía que un lector de pantalla anunciara otra vez los errores ya visibles (DP-06). Se resolvió reutilizando la fila en edición y sin reconstruir los avisos visibles (`docs/delivery/tareas/plan.md`, "Cambios en la v1.1"). Si la app crece en pantallas o estados, este es el primer sitio donde un framework ahorraría trabajo.
+- **La cabecera de seguridad limita también lo propio:** nada de estilos en línea ni iconos `data:`; todo va en archivos del mismo origen.
+- **`crypto.randomUUID()` exige HTTPS o `localhost`.** Publicar la app requiere HTTPS, y el servidor local no puede abrirse a la red para probar desde un móvil.
+
+Ninguno obliga a revisar la decisión.

@@ -7,6 +7,8 @@ metadata:
 
 `npm test` ejecuta `tests/**`, así que un test de aceptación en rojo en `tests/acceptance/` deja `scripts/check.sh` en rojo y el Developer no puede terminar ninguna tarea. `check.sh` no ejecuta Playwright, de modo que `e2e/` sí admite rojo, pero "check.sh en verde" no demuestra ningún CA de pantalla.
 
-**Why:** detectado al planificar `tareas` (01-11-2026, pendiente de G2). La tabla de Tests de `docs/architecture/README.md` todavía pone la aceptación en `tests/acceptance/`.
+Estado: la tabla de Tests de `docs/architecture/README.md` ya lo recoge (`/close` de `tareas`, 02-11-2026). Siguen sin corregir en el arnés `.claude/agents/qa-evaluator.md` (pone unit/integration en `tests/acceptance/`) y `/bootstrap` (exige que el comando de test incluya `tests/acceptance/`).
+
+**Why:** detectado al planificar `tareas` (01-11-2026); confirmado durante todo `/build`.
 
 **How to apply:** al planificar, los CA que aún no pueden pasar van en `e2e/<feature>/`, cada CA se asigna a la tarea en la que puede ponerse en verde, y `verify` ejecuta Playwright por ID (`-g "CA-03:"`). Vuelve a comprobarlo si cambia `checks.test` en `.claude/harness.json`.

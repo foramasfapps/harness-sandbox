@@ -1,6 +1,6 @@
 # Plan – tareas
 
-> Estado: Aprobado (01-11-2026) · PRD: `docs/product/prd-01-tareas.md` (v1.2, Aprobado) · Diseño: `docs/design/tareas/` (Aprobado, 01-11-2026)
+> Estado: Implementado (02-11-2026) · Versión: 1.1 · Aprobado en G2 el 01-11-2026 · PRD: `docs/product/prd-01-tareas.md` (v1.2, Aprobado) · Diseño: `docs/design/tareas/` (Aprobado, 01-11-2026)
 > Lo escribe el Arquitecto en `/design`. Las tareas están en `tasks.json`; el avance, en `progress.md`.
 
 ## Resumen
@@ -47,7 +47,7 @@ Resueltas el 01-11-2026: opción A en todas. La rama ya es `feature/tareas` y el
 | # | Decisión | Por qué | ¿ADR? |
 |---|---|---|---|
 | 1 | Reparto de `docs/architecture/README.md`: reglas en `src/tasks.js`, `localStorage` solo en `src/storage.js`, pantalla en `src/app.js`, estilos en `src/styles.css`. RN-12 se comprueba en `tasks.js`; leer y convertir el JSON, en `storage.js`. | Ya aprobado, y permite probar las reglas sin navegador. | No |
-| 2 | Un único estado en memoria (`tasks`, fila abierta, mensajes). La fila abierta guarda `id`, modo (`edit` o `confirm`), lo escrito y su error. Tras cada acción se redibuja la lista entera. | Es lo más sencillo sin framework. Que lo escrito esté en el estado es lo que permite cumplir CA-35 aunque se redibuje. | No |
+| 2 | Un único estado en memoria (`tasks`, fila abierta, mensajes). La fila abierta guarda `id`, modo (`edit` o `confirm`), lo escrito y su error. Tras cada acción se redibuja la lista entera, salvo la fila en edición (ver "Cambios en la v1.1"). | Es lo más sencillo sin framework. Que lo escrito esté en el estado es lo que permite cumplir CA-35 aunque se redibuje. | No |
 | 3 | Cada acción indica dónde queda el foco (tarea y control), y se aplica justo después de redibujar. | Mover o recrear una fila pierde el foco del navegador; así se cumple RN-15 de una sola manera. | No |
 | 4 | Añadir y editar usan `<form novalidate>`, botón de envío y `preventDefault()`. "Cancelar" es `type="button"`. Sin `required`. | Intro funciona de forma nativa y no se dispara mientras se compone un carácter. Sin `required`, el navegador no muestra sus propios globos en lugar de los mensajes del PRD. | No |
 | 5 | Esc se escucha en la fila abierta: funciona con el foco en cualquiera de sus controles, y no fuera de ella. | RF-04 y RF-05, y coincide con `flows.md`. | No |
@@ -155,3 +155,28 @@ export function saveTasks(tasks);  // true si se guardó, false si no
 4. **Transversal:** T-08 (una fila abierta), T-09 (fallos de guardado), T-10 (foco y accesibilidad) y T-11 (móvil y estilos).
 
 T-01 y T-02 no cubren ningún CA directamente: se comprueban con tests unitarios y sus reglas se demuestran en las tareas de pantalla. Cada CA se asigna a la tarea en la que puede ponerse en verde, porque el Developer no puede marcar una tarea como terminada con sus tests en rojo.
+
+## Cambios en la v1.1
+
+Fecha: 02-11-2026 (`/close`). Motivo: recoger lo que cambió al construir frente a lo aprobado en G2. Sale de `progress.md` (T-03, T-08 y T-10) y de `qa-report.md`. No cambia ninguna tarea, CA ni interfaz.
+
+### Excepción a la decisión 2: la fila en edición se reutiliza
+
+- **Qué decía:** tras cada acción se redibuja la lista entera.
+- **Qué se construyó:** se redibuja la lista entera salvo la fila en edición. Mientras sigue abierta la misma edición (misma tarea, con el mismo texto y estado guardados), esa fila no se vuelve a crear: se pone al día en su sitio (lo escrito, el borde de error y el mensaje de error) y las demás filas se colocan antes y después de ella sin moverla. En cuanto se cierra la edición, o cambia la tarea que se edita, la fila se crea de nuevo como antes.
+- **Por qué:** DP-06 pide que los errores se anuncien al lector de pantalla al aparecer. Con la lista entera redibujada, el error de edición se volvía a insertar en cada acción (por ejemplo, al marcar otra fila) y el lector lo anunciaba otra vez. Mover un nodo dentro de la lista también cuenta como insertarlo, por eso la fila se deja quieta y se mueven las demás. Lo detectó QA en la verificación parcial 2 y se corrigió en T-10.
+- **Lo mismo para los avisos fuera de la lista:** el error de añadir y los avisos de lectura y guardado tienen su contenedor en `index.html` desde el principio, y su mensaje no se reconstruye mientras está a la vista (T-03, T-09 y T-10). Encaja con lo que el plan ya decía de DP-06 en "Sobre las dudas de UX".
+- **Qué sigue igual:** el estado único y lo escrito guardado en él (decisión 2), el foco aplicado después de redibujar (decisión 3) y el contrato de pantalla de "Interfaces".
+- **Consecuencia aceptada:** repetir "Añadir" o "Guardar" vacío con el error ya visible no lo vuelve a anunciar (DP-06 tomado al pie de la letra: "al aparecer"). Queda como P-09 en el PRD.
+
+### Otros ajustes durante la construcción
+
+- **Decisión 5 (Esc):** el primer código escuchaba Esc en toda la lista, y un Esc desde otra fila cancelaba la fila abierta y perdía lo escrito. T-08 lo dejó como dice la decisión: solo con el foco dentro de la fila abierta. Tras un clic en una zona de la fila abierta que no es un control, Esc no actúa (P-10 en el PRD).
+- **Icono de la página:** se añadió `favicon.ico` en la raíz. Sin él, un navegador completo registra un 404 en consola y CA-29 falla fuera de los tests. Un icono `data:` lo bloquea la cabecera de seguridad.
+- **Riesgos comprobados:** `preventDefault()` en el envío no choca con `form-action 'none'` y `maxLength` no parte un emoji al pegar (T-04); el contorno de foco se ve al mover el foco por código tras redibujar (CA-28, T-10).
+
+### Aplicado en `/close`
+
+- Las reglas de "Cambios al modelo de datos" están en `docs/architecture/data-model.md` (versión 1).
+- La tabla de Tests de `docs/architecture/README.md` recoge la contradicción 8, y la nueva sección "Cómo funciona la pantalla" recoge esta excepción.
+- `docs/architecture/adr/0001-static-page-with-localstorage.md` anota sus consecuencias observadas. No hizo falta ningún ADR nuevo.
