@@ -26,8 +26,8 @@ Invariantes no negociables. Las que se pueden comprobar automáticamente están 
 | Preparar el entorno local (dependencias y navegador de tests) | `scripts/init.sh` |
 | Comprobar todo (tests e invariantes; no hay tipos ni lint) | `scripts/check.sh` |
 | Desarrollo, en http://127.0.0.1:4173 | `npm run dev` |
-| Tests unitarios y de aceptación | `npm test` |
-| Tests e2e | `npm run e2e` |
+| Tests unitarios | `npm test` |
+| Tests e2e y de aceptación (no los ejecuta `scripts/check.sh`) | `npm run e2e` |
 
 ## Forma de trabajar
 

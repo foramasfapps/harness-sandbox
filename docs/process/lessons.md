@@ -6,6 +6,7 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 
 | Funcionalidad | Talla | Fecha de cierre | Consumo (de `/usage`) | Veces que hizo falta la persona fuera de las puertas | Fallos escapados (encontrados en G3 o después) |
 |---|---|---|---|---|---|
+| `tareas` | M | 02-11-2026 | Pendiente de la cifra de `/usage`. Solo subagentes, sin el cierre: unos 2,0 millones de tokens (Developer 1,05 M, QA 0,69 M, Arquitecto 0,18 M, UX y revisores 0,09 M) | 3: decir dónde estaba el repo, el comando `/feature` escrito en la terminal y reintentar tras el límite de uso | 0 |
 
 ## Lecciones
 
@@ -65,6 +66,33 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 - **Qué faltó:** decir en `tasks.json` cómo se ejecutan los tests nuevos de QA, por ejemplo con un `verify` por archivo y no por ID. También una regla para el `favicon.ico`: el Chromium reducido de Playwright no lo pide y el completo sí.
 - **Valor real:** QA encontró 14 fallos que los CA no veían, de ellos 1 alto (404 en consola) y 2 medios (RN-13 y avisos sin anunciar). Ninguno llegó a G3. Developer y QA nunca necesitaron a la persona, y las 11 tareas se cerraron sin bloqueos.
 - **Cambio propuesto al arnés:** (1) que `/build` ejecute la suite e2e completa al comprobar cada tarea, no solo su `verify`; (2) bajar a una verificación parcial en talla M; (3) permitir a QA escribir en el scratchpad.
+
+### `tareas` · `/close` y retro del ensayo · 02-11-2026
+
+- **Qué falló:**
+  - **Tests y comprobaciones:** el arnés no cuadra los tests de pantalla con `check.sh`. Los de aceptación tuvieron que ir a `e2e/`, `check.sh` no los ejecuta, y solo la CI y QA ejecutaban la suite completa.
+  - **Arranque:** la sesión empezó fuera del repo clonado, así que `/bootstrap` no existía hasta clonarlo.
+  - **Consumo:** no se puede medir por fase desde dentro de la sesión.
+- **Qué sobró:**
+  - **Ceremonia para la talla:** una lista de tareas de talla M pasó por 49 CA, 15 reglas, 12 contradicciones de diseño y 3 verificaciones de QA. El coste estuvo en la revisión más que en el código.
+  - **Documentación:** `vision.md` y `/design-system` traen secciones que en una app de juguete no aportan.
+- **Qué faltó:**
+  - **Nombre de rama:** fijarlo antes de `/build`.
+  - **Comandos en el chat:** decir de forma visible que los comandos del arnés se escriben en el chat, no en la terminal.
+  - **Pasos que no aplican:** una forma de marcarlos (base de datos, vista previa) sin que parezcan olvidos.
+- **Lo que funcionó:**
+  - **Controles:** el hook de commits en `main`, las invariantes y el reparto de carpetas por rol funcionaron sin fallar.
+  - **Revisión independiente:** detectó errores reales en tres fases: 2 CA mal planteados en `/spec`, 12 contradicciones en `/design` y 14 fallos en `/build`.
+  - **Fallos escapados:** 0 llegaron a G3.
+- **Cambios propuestos al arnés** (no aplicados; los decide la persona):
+  1. `README.md`: "clona el repo y abre Claude Code dentro antes de `/bootstrap`".
+  2. `/discover` crea la rama `feature/<feature>`; `/build` y `/close` ya la esperan.
+  3. Tests de aceptación de pantalla en `e2e/<feature>/`. `/build` ejecuta la suite e2e completa al comprobar cada tarea, y `check.sh` ejecuta la e2e de las tareas en `passing`.
+  4. Topes orientativos por talla: CA en `/spec`, esfuerzo del arquitecto en `/design` y número de verificaciones de QA en `/build` (en M, una parcial y la final).
+  5. `harness.json`: distinguir un comando vacío por olvido de un `null` por decisión aprobada.
+  6. `/bootstrap`: marcar como "si aplica" la base de datos, los datos semilla, las migraciones y la vista previa, y probar cada invariante con un incumplimiento.
+  7. Indicar en `/feature` y en el final de cada skill que el siguiente comando se escribe en el chat.
+  8. Permitir a QA escribir en el scratchpad y en su memoria en modo revisión.
 
 <!-- Una entrada por cierre:
 ### <feature> · <fecha>

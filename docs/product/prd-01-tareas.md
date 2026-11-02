@@ -1,6 +1,6 @@
 # PRD 01 – Tareas
 
-> Estado: Aprobado (01-11-2026) · Talla: M · Versión: 1.2 · Fecha: 01-11-2026
+> Estado: Implementado (02-11-2026) · Talla: M · Versión: 1.2 · Fecha: 01-11-2026
 > Discovery: `docs/product/discovery/tareas.md` · Decisiones nuevas: D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12, D-13, D-14, D-15
 
 ## 1. Objetivo
@@ -155,3 +155,25 @@ Fecha: 01-11-2026. Motivo: respuestas de la persona y aclaraciones aprobadas en 
 - CA-45: se comparan los nombres completos, porque "Borrar" ya contiene una "B".
 
 Sin requisitos, reglas ni criterios con ID nuevo: siguen 49 CA.
+
+## Cambios durante la construcción
+
+Fecha: 02-11-2026. Sale de `docs/delivery/tareas/progress.md` y `qa-report.md`. No cambia ningún RF, RN ni CA.
+
+- **Icono de la página:** se añadió `favicon.ico`. Sin él, un navegador completo registraba un error 404 en consola y CA-29 fallaba fuera de los tests.
+- **Avisos anunciados (DP-06):** los mensajes de error y los avisos de lectura y guardado se anuncian al lector de pantalla al aparecer, y no se repiten al redibujar. Para eso la fila en edición se conserva en lugar de volver a pintarse.
+- **Esc:** solo cancela cuando el foco está en la fila abierta. Desde otra fila o desde el campo de añadir no hace nada, para no perder lo escrito.
+- **Estilos:** "Guardar" es botón secundario; la casilla deshabilitada se atenúa; desde 480 px los botones de edición van a la derecha del campo.
+
+## Preguntas abiertas tras la construcción
+
+Las detectó QA y el PRD no las cubre. No bloquearon G3; quedan para una mejora futura.
+
+| ID | Pregunta | Estado |
+|---|---|---|
+| P-05 | Un doble clic en "Editar" abre la edición y la cierra guardando sin cambios. ¿Se evita? | Abierta |
+| P-06 | Una tarea guardada de más de 200 caracteres se puede editar y se queda por encima de 200. ¿Se recorta al editar? | Abierta |
+| P-07 | Pegar solo caracteres invisibles (U+200B) crea una tarea que se ve en blanco. ¿Cuentan como vacío? | Abierta |
+| P-08 | En modo oscuro, la casilla sin marcar es un cuadro claro y usa el aspecto nativo. ¿Se le da el estilo del sistema de diseño? | Abierta |
+| P-09 | Repetir "Añadir" o "Guardar" vacío con el error ya visible no lo vuelve a anunciar. ¿Debe anunciarse? | Abierta |
+| P-10 | Esc deja de cancelar tras hacer clic en una zona de la fila abierta que no es un control. ¿Se amplía? | Abierta |

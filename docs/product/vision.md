@@ -51,4 +51,4 @@ Orden de construcción y porqué. Cada fila acaba siendo un PRD.
 
 | # | Funcionalidad | Talla | Por qué en este orden |
 |---|---|---|---|
-| 01 | `tareas`: crear, editar, completar y borrar | M | Es la app entera; las cuatro operaciones comparten pantalla y datos (D-02) |
+| 01 | `tareas`: crear, editar, completar y borrar (hecha, 02-11-2026) | M | Es la app entera; las cuatro operaciones comparten pantalla y datos (D-02) |
