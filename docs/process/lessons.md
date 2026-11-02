@@ -58,6 +58,14 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 - **Qué faltó:** en `/design`, una regla para las dudas de producto con respuesta obvia: de 9 de UX y 5 del arquitecto, solo 4 necesitaban a la persona. También faltó indicar que hay que hacer commit de los documentos antes de `/build`.
 - **Cambio propuesto al arnés:** (1) definir dónde viven los tests de aceptación de pantalla y cómo se ejecutan en `check.sh` sin bloquear al Developer; (2) fijar el nombre de rama en `/discover`; (3) dar a los agentes de `/design` un límite de esfuerzo según la talla.
 
+### `tareas` · `/build` · 02-11-2026
+
+- **Qué falló:** el `verify` de cada tarea solo filtra por `CA-xx:`, así que los tests que añade QA en sus verificaciones no los ejecutaba nadie hasta que el orquestador lo pidió a mano. `scope_guard.py` no deja a QA escribir en el scratchpad. Un límite de uso cortó la segunda verificación de QA, y se retomó sin perder trabajo.
+- **Qué sobró:** las dos verificaciones parciales y la final gastaron unos 480.000 tokens, frente a unos 940.000 de las 13 invocaciones del Developer. Para una talla M con 49 CA, una verificación parcial más la final habrían bastado.
+- **Qué faltó:** decir en `tasks.json` cómo se ejecutan los tests nuevos de QA, por ejemplo con un `verify` por archivo y no por ID. También una regla para el `favicon.ico`: el Chromium reducido de Playwright no lo pide y el completo sí.
+- **Valor real:** QA encontró 14 fallos que los CA no veían, de ellos 1 alto (404 en consola) y 2 medios (RN-13 y avisos sin anunciar). Ninguno llegó a G3. Developer y QA nunca necesitaron a la persona, y las 11 tareas se cerraron sin bloqueos.
+- **Cambio propuesto al arnés:** (1) que `/build` ejecute la suite e2e completa al comprobar cada tarea, no solo su `verify`; (2) bajar a una verificación parcial en talla M; (3) permitir a QA escribir en el scratchpad.
+
 <!-- Una entrada por cierre:
 ### <feature> · <fecha>
 - **Qué falló:**

@@ -1,3 +1,3 @@
 - [Trampas de Playwright y prueba de los tests](playwright-test-traps.md) — redibujo, `check()`, `-g`, repetidas y fallos inyectados
-- [Inyectar fallos sin escribir archivos](qa-tests-en-memoria.md) — entrada estándar, servidor en memoria, `spawn` asíncrono (no `spawnSync`)
-- [Lo que los e2e por defecto no ven](navegador-completo-y-diseno.md) — icono 404, diseño sin CA, `role="alert"` al redibujar, RN-13 por camino
+- [Inyectar fallos sin escribir archivos](qa-tests-en-memoria.md) — entrada estándar, servidor en memoria, `spawn` asíncrono, 4173 ocupado → 4174
+- [Lo que los e2e por defecto no ven](navegador-completo-y-diseno.md) — icono 404, diseño sin CA, anuncios al redibujar, RN-13 por camino, avisos gemelos, 479/480 px

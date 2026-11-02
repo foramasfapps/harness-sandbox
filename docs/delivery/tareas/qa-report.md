@@ -1,8 +1,137 @@
 # Informe de QA – tareas
 
-> Estado: Borrador (verificación parcial 2) · Lo escribe QA al final de `/build`. Fecha: 02-11-2026 · Rama: `feature/tareas` · Commit: cbba567
-> Alcance: solo T-05, T-06, T-07 y T-08 (27 de los 49 CA). T-09 a T-11 siguen sin construir y sus CA quedan sin evaluar. La verificación parcial 1 (T-01 a T-04) está más abajo.
-> Veredicto de T-05 a T-08: Aprobado (sus 27 CA pasan y no hay fallos críticos ni altos). Veredicto de la funcionalidad: Con fallos, porque faltan T-09 a T-11 y quedan 1 fallo medio y 4 bajos asignados a esas tareas.
+> Lo escribe QA al final de `/build`. Fecha: 02-11-2026 · Rama: `feature/tareas` · Commit: 3dfaa0c
+> Alcance: verificación final, completa: las 11 tareas y los 49 CA. Las verificaciones parciales 1 y 2 quedan más abajo como historial.
+> Veredicto: **Aprobado**. Los 49 CA pasan, cada uno con un test que lo comprueba de verdad, y no queda ningún fallo abierto, ni crítico ni alto ni de otra gravedad. Quedan 6 decisiones para la persona, que el PRD no define y no cuento como fallos.
+
+## Criterios de aceptación
+
+| CA | Nivel | Resultado | Prueba | Pasos para reproducir (si falla) |
+|---|---|---|---|---|
+| CA-01 | e2e | Pasa | `e2e/tareas/carga.spec.js` | — |
+| CA-02 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-03 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-04 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-05 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-06 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-07 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-08 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-09 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-10 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-11 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-12 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-13 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-14 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-15 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-16 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-17 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-18 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-19 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-20 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-21 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-22 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-23 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-24 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-25 | e2e | Pasa | `e2e/tareas/fallos-guardado.spec.js` | — |
+| CA-26 | e2e | Pasa | `e2e/tareas/carga.spec.js` | — |
+| CA-27 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-28 | e2e | Pasa | `e2e/tareas/teclado-accesibilidad.spec.js` (2 tests: el recorrido del CA y el resto de RN-15) | — |
+| CA-29 | e2e | Pasa | `e2e/tareas/carga.spec.js` y `consola-navegador-completo.spec.js` (Chromium completo) | — |
+| CA-30 | e2e | Pasa | `e2e/tareas/fallos-guardado.spec.js` | — |
+| CA-31 | e2e | Pasa | `e2e/tareas/fallos-guardado.spec.js` | — |
+| CA-32 | e2e | Pasa | `e2e/tareas/fallos-guardado.spec.js` | — |
+| CA-33 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` | — |
+| CA-34 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` | — |
+| CA-35 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` | — |
+| CA-36 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` y `hallazgos-qa-filas.spec.js` ("RN-09: …") | — |
+| CA-37 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-38 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-39 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-40 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-41 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-42 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-43 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-44 | e2e | Pasa | `e2e/tareas/movil.spec.js` (fila normal, en edición y en confirmación) | — |
+| CA-45 | e2e | Pasa | `e2e/tareas/teclado-accesibilidad.spec.js` | — |
+| CA-46 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+| CA-47 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-48 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-49 | e2e | Pasa | `e2e/tareas/anadir.spec.js` | — |
+
+Resultado de las ejecuciones:
+
+- `scripts/check.sh`: en verde, con 27 tests unitarios e invariantes.
+- `npx playwright test`: 94 pasan y 0 fallan. Son los 91 que había y 3 nuevos de esta verificación (`e2e/tareas/hallazgos-qa-final.spec.js`).
+- `verify` de T-03 a T-11: con `--list` se comprobó que cada filtro selecciona sus tests (6, 12, 5, 12, 6, 4, 4, 3 y 1) y ninguno de los nuevos.
+- Los 3 tests nuevos se anotan en `acceptance_tests` de T-09 y T-11. Como no citan ningún CA, el `verify` de esas tareas no los ejecuta: se lanzan por archivo, por ejemplo `npx playwright test e2e/tareas/hallazgos-qa-final.spec.js`.
+- Los 14 fallos de las verificaciones parciales están arreglados, y sus tests pasan: los 9 de la verificación 1 y los 5 de la verificación 2.
+
+## Revisión del código frente a los criterios
+
+**Tests de aceptación.** Ningún archivo de `e2e/` ni de `tests/` ha cambiado desde el último commit de QA (`5ff73d2`). Entre `5ff73d2` y `3dfaa0c` solo cambian `src/app.js`, `src/styles.css`, `index.html`, `progress.md` y el `status` de T-09, T-10 y T-11 en `tasks.json`. No se han debilitado. Los tests de los 7 CA que aún no tenían código en la verificación 2 (CA-25, CA-28, CA-30, CA-31, CA-32, CA-44 y CA-45) comprueban las cifras exactas del PRD: las cuatro listas de CA-25 tras cada paso, los dos avisos y su orden en CA-30, la lista al recargar en CA-31 y CA-32, `activeElement` y `outline-style` tras cada tecla en CA-28, `scrollWidth` ≤ 360 en CA-44, y los nombres completos en CA-45.
+
+**Fallos inyectados.** Se cambió la app en memoria, sin tocar archivos, con 23 cambios en lo que construyeron T-09 a T-11 (`persist()`, la fila en edición reutilizada, los avisos, `index.html` y las reglas nuevas de `src/styles.css`), y se ejecutó la suite completa de `e2e/tareas`:
+
+| Detectados por | Cambios |
+|---|---|
+| Los CA y los tests que ya había | 16 |
+| Nadie, pero sin efecto observable | 2: no actualizar el valor de la fila reutilizada y no vaciar la caché al cerrar (el valor ya está al día y la fila se rehace al reabrir) |
+| Nadie: huecos reales | 5 (ver abajo) |
+
+Los 5 huecos los cumple la app hoy, pero un cambio futuro podría romperlos sin que nadie lo viera:
+
+- **El aviso de guardado sin `role="status"`.** No se anunciaría (DP-06).
+- **Los avisos de guardado y de lectura se rehacen en cada redibujado.** Se anunciarían otra vez en cada acción. Solo se probaba con los errores de añadir y de edición.
+- **El aviso de guardado sin su estilo de bloque.** `states.md` pide el mismo bloque que el de lectura. Solo se comprobaba el de lectura.
+- **El punto de corte de 480 px.** Con los botones de la fila o de la edición a la derecha desde 900 px, ningún test lo veía: el único test mide a 1280 px.
+- **El error de edición a la derecha del campo, desde 480 px.** `states.md` lo pide debajo del campo.
+
+Los tres tests nuevos de `hallazgos-qa-final.spec.js` pasan hoy y detectan esos 5 cambios y 4 más (puntos de corte de 470 y 900 px, y el icono del aviso sin `--warn`).
+
+**Sin fallos.** RN-13 en los cuatro caminos con un solo `persist()`: el aviso de lectura solo se va si `saveTasks` devuelve `true`, y el de guardado se va con el siguiente guardado correcto (`src/app.js:44-48`). Ni abrir, ni cancelar, ni un intento rechazado guardan, así que no cuentan como cambio. DP-08: el aviso de lectura va antes que el de guardado (`index.html:19-21`). DP-06: los avisos, el error de añadir y la fila en edición no se rehacen al redibujar (`src/app.js:257-282` y `:73-81`). "Guardar" es secundario, la casilla deshabilitada tiene opacidad 0,5 y cursor `not-allowed`, y la rejilla de edición coloca los botones a la derecha desde 480 px, solo con clases. No hay valores escritos a mano: `maxLength` sale de `MAX_TEXT_LENGTH` en los dos campos.
+
+**Para `/close`, sin ser fallo:** la decisión 2 de `plan.md` dice "se redibuja la lista entera". Desde T-10 es así salvo la fila en edición, que se reutiliza para no volver a anunciar su error. Conviene reflejarlo, como ya apunta `progress.md`.
+
+## Prueba exploratoria
+
+`scripts/init.sh` instala dependencias pero no arranca la app. Se usó el servidor de `npm run dev` que ya estaba en marcha en 127.0.0.1:4173 y sirve la carpeta del proyecto. Para los fallos inyectados, un servidor en memoria en el puerto 4174. Se miró el árbol de accesibilidad, estilos calculados y posiciones, en modo claro y oscuro, y con Chromium por defecto y completo (`channel: "chromium"`).
+
+| Qué se probó | Resultado |
+|---|---|
+| Aviso de guardado en los dos modos de color | Bloque con borde de 1 px en `--warn`, fondo `--surface`, texto `--fg` e icono ⚠ en `--warn`. Dentro de `role="status"`. Ahora lo cubre un test. |
+| Anuncios con tres fallos de guardado seguidos (añadir, marcar, editar) | El aviso se anuncia 1 sola vez, al aparecer. Ahora lo cubre un test. |
+| Datos ilegibles y `setItem` fallando; después `setItem` se recupera y se marca | Primero se ven los dos avisos y la clave sigue valiendo `no-es-json`. Al marcar, se van los dos y se guarda `[Pan✓]`. Al recargar, se ve "Pan" sin avisos. |
+| Almacenamiento bloqueado (`SecurityError`): añadir A y B, marcar, editar a "A2" y borrar | La lista acaba en "A2", con los dos avisos y sin errores en consola. |
+| Chromium completo, en oscuro, con ilegible, fallos de guardado, error de edición, recuperación y borrado | 0 errores y 0 avisos en consola. |
+| Árbol de accesibilidad con almacenamiento bloqueado, error de añadir y error de edición a la vez | `alert` (error de añadir), `status` (lectura), `status` (guardado), y en la fila: casilla `[disabled]`, campo, `alert` y los dos botones con sus nombres completos. |
+| Fila normal, en edición con error y en confirmación, a 360, 479, 480, 560 y 1280 px, con "B" y con 200 "a" | `scrollWidth` igual al ancho en todos. Por debajo de 480 px, los botones van debajo del texto o del campo; desde 480 px, a la derecha. El error de edición va siempre debajo del campo. Todos los controles miden 44 px de alto y hay 8 px entre botones. Captura: `docs/delivery/tareas/qa/final-movil-avisos-y-error.png`. |
+| Doble clic en "Borrar" de la fila, a 360, 480 y 1280 px | Abre la confirmación y no borra nada. |
+| Doble clic en "Editar", a 360, 480 y 1280 px | Abre la edición y la cierra guardando sin cambios: el segundo clic cae en "Guardar". No se pierde nada (ver decisiones). |
+
+**Sin comprobar:** Safari en iOS (aceptado en `plan.md`) y un lector de pantalla real: solo se miraron los atributos y lo que entra en cada región que se anuncia.
+
+**Para decidir, sin contarlos como fallos porque el PRD no los define:**
+
+| # | Qué pasa | Decisión pendiente |
+|---|---|---|
+| 1 | Un doble clic en "Editar" abre la edición y la cierra, porque el segundo clic cae en "Guardar". Antes de T-11 solo pasaba a 360 px; ahora también a 480 y 1280 px, porque "Guardar" queda a la altura de "Editar". Guarda sin cambios: no se pierde nada. | UX |
+| 2 | Con una tarea guardada de 250 caracteres (RN-12 la acepta), el campo de edición muestra los 250, deja borrar y no deja escribir. RN-08 dice que los campos no admiten más de 200. | PM |
+| 3 | Pegar solo caracteres invisibles de ancho cero (U+200B) crea una tarea que se ve en blanco. | PM |
+| 4 | En modo oscuro, la casilla sin marcar es un cuadro claro, porque no se declara `color-scheme` (sigue `normal`). `states.md` no define su color. | UX |
+| 5 | Repetir "Añadir" vacío o "Guardar" vacío con el error ya visible no lo vuelve a anunciar. Cumple DP-06 al pie de la letra ("al aparecer"), pero quien usa lector de pantalla no oye nada en el segundo intento. Lo apunta también `progress.md`. | UX |
+| 6 | Si se hace clic en una zona de la fila abierta que no es un control, el foco pasa a la página y Esc ya no cancela. Es lo que dice la decisión 5 de `plan.md`. | Ninguna, salvo que moleste. |
+
+## Fallos por gravedad
+
+Ninguno abierto. Los 14 de las verificaciones parciales están arreglados y cubiertos por tests en verde.
+
+Gravedad: **Crítico** (dato incorrecto o pérdida de datos) · **Alto** (un CA no se cumple) · **Medio** (caso límite o error mal tratado) · **Bajo** (molestia sin efecto en datos).
+
+---
+
+# Verificación parcial 2 – T-05 a T-08
+
+> Fecha: 02-11-2026 · Commit: cbba567 · Veredicto entonces: Aprobado para T-05 a T-08; la funcionalidad, Con fallos (faltaban T-09 a T-11). Sus 5 fallos se arreglaron después en `9670549`, `024af93` y `3dfaa0c`.
 
 | Tarea | Resultado | Motivo |
 |---|---|---|

@@ -16,4 +16,6 @@ Los tests de consola en verde con el Chromium por defecto de Playwright no demue
 - Prueba los dos modos de color: el texto de ayuda sin estilo propio da 3,58:1 en oscuro.
 - Busca lo que `app.js` hace sin mirar el resultado de `saveTasks`, en cada camino (añadir, marcar, editar, borrar): quitar un aviso antes de saber si se ha guardado rompe RN-13. Un test que recorra solo añadir da por bueno un arreglo a medias.
 - La app redibuja la lista entera: busca mensajes dentro de `role="alert"` que se vuelven a crear al redibujar (se anuncian otra vez). Se prueba con un `MutationObserver` mientras se marca otra fila.
+- Cuando dos elementos comparten requisito (aviso de lectura y aviso de guardado, error de añadir y de edición), comprueba que los tests cubren los dos. En la verificación final (02-11-2026) el estilo de bloque, el `role` y el no volver a anunciar solo se probaban en uno, y 5 fallos inyectados no los veía nadie.
+- Los puntos de corte de `states.md` (480 px) se prueban a los dos lados (479 y 480), no solo a 1280: mover el corte a 900 px no lo detectaba ningún test.
 - Los tests de QA sin CA no los ejecuta el `verify` de ninguna tarea (filtra por `CA-xx:`). Al anotarlos en `acceptance_tests`, dilo en el informe para que se lancen por archivo.

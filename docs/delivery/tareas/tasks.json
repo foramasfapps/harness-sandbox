@@ -421,6 +421,16 @@
           "ca": "RN-13",
           "level": "e2e",
           "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "DP-06",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-final.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-final.spec.js"
         }
       ],
       "status": "passing",
@@ -489,6 +499,11 @@
           "ca": "states.md",
           "level": "e2e",
           "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-final.spec.js"
         }
       ],
       "status": "passing",
