@@ -6,7 +6,7 @@ Se escribe en cada `/close`. Sirve para mejorar el arnés: qué pieza falló, cu
 
 | Funcionalidad | Talla | Fecha de cierre | Consumo (de `/usage`) | Veces que hizo falta la persona fuera de las puertas | Fallos escapados (encontrados en G3 o después) |
 |---|---|---|---|---|---|
-| `tareas` | M | 02-11-2026 | Pendiente de la cifra de `/usage`. Solo subagentes, sin el cierre: unos 2,0 millones de tokens (Developer 1,05 M, QA 0,69 M, Arquitecto 0,18 M, UX y revisores 0,09 M) | 3: decir dónde estaba el repo, el comando `/feature` escrito en la terminal y reintentar tras el límite de uso | 0 |
+| `tareas` | M | 02-11-2026 | `/usage` (02-11-2026): 32,91 $, 87 min de API, 26,4 M de tokens leídos de caché y 524.400 escritos en caché, 54 % del límite de la sesión y 73 % del semanal. Podría no cubrir el tramo anterior al límite de uso. Solo subagentes, sin el cierre: unos 2,0 millones de tokens (Developer 1,05 M, QA 0,69 M, Arquitecto 0,18 M, UX y revisores 0,09 M) | 3: decir dónde estaba el repo, el comando `/feature` escrito en la terminal y reintentar tras el límite de uso | 0 |
 
 ## Lecciones
 
