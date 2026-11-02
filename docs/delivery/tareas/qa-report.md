@@ -1,8 +1,131 @@
 # Informe de QA – tareas
 
-> Estado: Borrador (verificación parcial) · Lo escribe QA al final de `/build`. Fecha: 01-11-2026 · Rama: `feature/tareas` · Commit: 2d7a17e
-> Alcance: solo T-01, T-02, T-03 y T-04 (15 de los 49 CA). Los otros 34 CA son de tareas sin construir y quedan sin evaluar.
-> Veredicto: Con fallos
+> Estado: Borrador (verificación parcial 2) · Lo escribe QA al final de `/build`. Fecha: 02-11-2026 · Rama: `feature/tareas` · Commit: cbba567
+> Alcance: solo T-05, T-06, T-07 y T-08 (27 de los 49 CA). T-09 a T-11 siguen sin construir y sus CA quedan sin evaluar. La verificación parcial 1 (T-01 a T-04) está más abajo.
+> Veredicto de T-05 a T-08: Aprobado (sus 27 CA pasan y no hay fallos críticos ni altos). Veredicto de la funcionalidad: Con fallos, porque faltan T-09 a T-11 y quedan 1 fallo medio y 4 bajos asignados a esas tareas.
+
+| Tarea | Resultado | Motivo |
+|---|---|---|
+| T-05 | Pasa | Sus 5 CA pasan y detectan los cambios inyectados en el orden, el guardado y el tachado. El foco de la casilla (RN-15) solo lo comprueba CA-28, de T-10. |
+| T-06 | Pasa, con fallos bajos | Sus 12 CA pasan. "Guardar" se ve como botón principal y, en escritorio, "Guardar" y "Cancelar" van debajo del campo, no a la derecha (fallos 3 y 5). |
+| T-07 | Pasa | Sus 6 CA pasan. |
+| T-08 | Pasa | Sus 4 CA pasan. El arreglo de Esc que `progress.md` daba por hecho sin test se cumple, y ahora lo cubren 10 tests nuevos. |
+
+## Criterios de aceptación (verificación parcial 2)
+
+| CA | Nivel | Resultado | Prueba | Pasos para reproducir (si falla) |
+|---|---|---|---|---|
+| CA-09 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-10 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-11 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-12 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-13 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-14 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-15 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-16 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-17 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-18 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-19 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-20 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-21 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-22 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-23 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-24 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-33 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` | — |
+| CA-34 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` | — |
+| CA-35 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` | — |
+| CA-36 | e2e | Pasa | `e2e/tareas/una-fila-abierta.spec.js` y `hallazgos-qa-filas.spec.js` ("RN-09: …") | — |
+| CA-37 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+| CA-38 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-39 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-40 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-41 | e2e | Pasa | `e2e/tareas/editar.spec.js` | — |
+| CA-47 | e2e | Pasa | `e2e/tareas/completar.spec.js` | — |
+| CA-48 | e2e | Pasa | `e2e/tareas/borrar.spec.js` | — |
+
+Resultado de las ejecuciones:
+
+- `scripts/check.sh`: en verde, con 27 tests unitarios e invariantes.
+- `verify` de T-05 (5 tests), T-06 (12), T-07 (6) y T-08 (4): todos pasan. Con `--list` se comprobó que cada filtro selecciona justo sus tests y ninguno de los nuevos.
+- `npx playwright test`: 81 pasan y 10 fallan. Son los 5 que ya se esperaban de T-09 (CA-25, CA-30, CA-31, CA-32 y "RN-13: …" de `hallazgos-qa.spec.js`) y 5 tests nuevos de este informe, uno por fallo.
+- Los 5 tests nuevos en rojo se anotan en `acceptance_tests` de T-09, T-10 y T-11. Ojo: el `verify` de esas tareas filtra por CA y no los ejecuta. Hay que lanzarlos por su título, por ejemplo `npx playwright test e2e/tareas/hallazgos-qa-filas.spec.js`.
+- Los fallos 1 y 3 a 9 de la verificación parcial 1 están arreglados: sus tests de `hallazgos-qa.spec.js` pasan. El fallo 2 sigue abierto, pendiente de T-09.
+
+## Revisión del código frente a los criterios (verificación parcial 2)
+
+**Tests de aceptación.** Ningún archivo de `e2e/` confirmado ha cambiado desde `878bd05`: entre `878bd05` y `cbba567` solo cambian `src/`, `index.html`, `favicon.ico` y `tasks.json`. No se han debilitado.
+
+**Fallos inyectados.** Se cambió la app en memoria, sin tocar archivos, con 51 cambios en `src/app.js`, `src/tasks.js` y `src/styles.css`, y se ejecutaron los tests de completar, editar, borrar, una fila abierta y teclado:
+
+| Detectados por | Cambios |
+|---|---|
+| Los CA de T-05 a T-08 | 31 |
+| Solo CA-28 o CA-45, de T-10 | 7: el foco tras marcar, tras cerrar la edición, al abrir y cancelar la confirmación y tras borrar; el orden "Borrar" y "Cancelar"; y el nombre accesible con lo escrito |
+| Solo los tests nuevos de este informe | 6: Esc desde otra fila (el arreglo de T-08), Esc solo desde el campo, `maxLength` escrito a mano, casilla de la completada sin marcar en edición, texto sin tachar en la confirmación y error que sigue al reabrir |
+| Nadie | 7 (ver abajo) |
+
+De los 7 sin detectar, 6 eran huecos reales y ya tienen test nuevo, que hoy pasa y detecta el cambio:
+
+- **Borrar la segunda de dos repetidas.** Si se borra siempre la primera "Pan", CA-36 lo pasa, porque solo borra la primera.
+- **Error de edición.** Sin `role="alert"` (DP-06) o sin el borde de error de 2 px.
+- **Estilos de `states.md`.** El "Borrar" destructivo de la confirmación, el peso 600 de la pregunta y el color `--muted` de las completadas.
+
+El séptimo no es un hueco: con "Cancelar" de tipo `submit` no cambia nada, porque el clic cierra la fila y el formulario ya no existe cuando se va a enviar.
+
+**Los tests en rojo se pueden poner en verde.** Con los arreglos aplicados en memoria pasan los 26 tests de `hallazgos-qa-filas.spec.js`. Si solo se arregla el camino de añadir, el test RN-13 nuevo sigue en rojo, así que detecta un arreglo a medias.
+
+**Reglas mal aplicadas:**
+
+- `src/app.js:258`, `:299` y `:324` ponen `state.readable = true` antes de guardar al marcar, borrar y editar, sin mirar lo que devuelve `saveTasks`. Es el mismo fallo de RN-13 que el de añadir (`:245`), pero en tres sitios más. El test de la verificación 1 solo recorría añadir, así que un arreglo de T-09 solo en añadir lo daría por bueno (fallo 1).
+- `src/app.js:76` asigna a "Guardar" la clase `button-primary`. `states.md` dice que "Añadir" es el único principal y "Guardar", secundario, y la contradicción 12 de `plan.md` decide seguir `states.md` (fallo 3).
+- `src/app.js:64-69` (edición) y `:200-204` (añadir) vuelven a crear los mensajes de error dentro de `role="alert"` en cada redibujado (fallo 2).
+
+**Sin fallos.** RN-02 y RN-03 en `setCompleted`; RN-04 en `editTask`; RN-09 por `id` en marcar, editar y borrar; RN-14 con el estado único `openRow`; Esc solo desde la fila abierta (decisión 5); `maxLength` del campo de edición tomado de `MAX_TEXT_LENGTH` (decisión 6); nunca se escribe al abrir, cancelar o rechazar, y sí al guardar sin cambios (decisión 7); los nombres accesibles usan el texto guardado; el texto se inserta con `textContent`.
+
+## Prueba exploratoria (verificación parcial 2)
+
+Se probó con el árbol de accesibilidad, estilos calculados y posiciones, a 1280 y 360 px, en modo claro y oscuro, con un servidor propio en memoria. `scripts/init.sh` instala dependencias, pero no arranca la app.
+
+| Qué se probó | Resultado |
+|---|---|
+| Esc con el foco en la casilla, "Editar" o "Borrar" de otra fila, o en el campo de añadir, con B en edición ("B2") o en confirmación | B sigue abierta, con "B2". Ahora lo cubren tests. |
+| Esc desde el campo, "Guardar" y "Cancelar" de la edición, y desde "Borrar" y "Cancelar" de la confirmación | Cancela y deja el foco en "Editar" o "Borrar" de la fila. |
+| Fila abierta y después marcar otra o añadir | La fila sigue abierta (también la confirmación), con lo escrito y el error. El foco va a la casilla en su nueva posición o al campo de añadir. Guardar después da D, B2, A, C✓, y confirmar borra la tarea correcta. |
+| Árbol de accesibilidad en edición con error y en confirmación | Nombres iguales a la tabla de `states.md`, la casilla `[disabled]` y el error como `alert`. |
+| Redibujar con errores visibles (marcar otra fila) | Los dos mensajes se vuelven a añadir dentro de `role="alert"` (fallo 2). |
+| `id` con comillas y barra invertida, texto con comillas y `<i>`, emojis | Marcar, editar, cancelar y borrar actúan sobre la fila correcta, y el foco llega a su sitio. |
+| Chromium completo (`channel: "chromium"`): error de edición, guardar, marcar y borrar | 0 errores y 0 avisos en consola. |
+| Doble clic en "Borrar", en "Borrar" de la confirmación, en "Cancelar" y en "Guardar", a 1280 y 360 px | Ningún doble clic borra una tarea de más ni sin confirmar. |
+| 360 px con 200 "a" en edición y en confirmación | `scrollWidth` 360. |
+| Estilos de la edición y la confirmación | Error en `--error` con icono y campo con borde de 2 px; "Borrar" de la confirmación con borde y texto `--error` sobre `--surface`; pregunta en `--fg` y peso 600, en los dos modos de color. Fallan "Guardar" como principal, la casilla deshabilitada sin estilo propio y la posición de los botones en escritorio (fallos 3, 4 y 5). |
+
+**Sin comprobar:** Safari en iOS (aceptado en `plan.md`), un lector de pantalla real y los fallos de guardado al marcar, editar y borrar, más allá de RN-13, porque son de T-09.
+
+**Para decidir, sin contarlos como fallos porque el PRD no los define:**
+
+| Qué pasa | Decisión pendiente |
+|---|---|
+| A 360 px, un doble toque en "Editar" abre la edición y la cierra: el segundo toque cae en "Guardar", que ocupa el mismo sitio, y guarda sin cambios. No se pierde nada. | UX: ¿se cambia en T-11? |
+| Con una tarea guardada de 250 caracteres (RN-12 la acepta), el campo de edición muestra los 250, deja borrar y no deja escribir. Guardar sin tocarla conserva 250, y borrar una letra deja 249. RN-08 dice que los campos no admiten más de 200. | PM: ¿se acepta así? |
+| Si se hace clic en una zona de la fila abierta que no es un control, el foco pasa a la página y Esc ya no cancela. Es lo que dice la decisión 5 de `plan.md`. | Ninguna, salvo que moleste. |
+
+## Fallos por gravedad (verificación parcial 2)
+
+| # | Gravedad | Qué pasa | CA | Test nuevo que lo cubre |
+|---|---|---|---|---|
+| 1 | Medio | Con datos ilegibles y `setItem` fallando, se añade "Pan" y después se marca, se edita a "Pan2" y se borra. Se espera que tras cada paso siga el aviso de lectura y `tasks.v1` valga `no-es-json`. Hoy el aviso desaparece ya al añadir, y marcar, editar y borrar también lo quitan sin mirar si se guardó (`src/app.js:258`, `:299` y `:324`). Lo debe resolver T-09 en los cuatro caminos. | RN-13 | `hallazgos-qa-filas.spec.js`, "RN-13: completing, editing and deleting …" |
+| 2 | Bajo | Con el error de edición y el de añadir visibles, marcar la casilla de otra fila redibuja y vuelve a añadir los dos mensajes dentro de `role="alert"`. Un lector de pantalla los anuncia otra vez, aunque no han aparecido. DP-06 pide anunciarlos al aparecer. Para T-10. | DP-06 | `hallazgos-qa-filas.spec.js`, "DP-06: a redraw …" |
+| 3 | Bajo | "Guardar" se ve como botón principal: fondo `rgb(29, 95, 204)` y texto blanco. Se espera secundario, con fondo `--surface` (`rgb(255, 255, 255)`), texto `--fg` y borde `--border` (`src/app.js:76`). Para T-11. | `states.md` | `hallazgos-qa-filas.spec.js`, "states.md: Guardar is a secondary button …" |
+| 4 | Bajo | La casilla deshabilitada en edición y en confirmación tiene opacidad 1 y cursor `default`. Se pide opacidad reducida y cursor `not-allowed`: no hay regla `.task-check:disabled` en `src/styles.css`. Para T-11. | `states.md` | `hallazgos-qa-filas.spec.js`, "states.md: the disabled checkbox …" |
+| 5 | Bajo | A 1280 px, "Guardar" y "Cancelar" van debajo del campo de edición (x 428, y 247, con el campo en x 428 a 904 e y 195 a 239). Desde 480 px deben ir a la derecha del campo. Para T-11. | `states.md` | `hallazgos-qa-filas.spec.js`, "states.md: from 480 px on …" |
+
+Gravedad: **Crítico** (dato incorrecto o pérdida de datos) · **Alto** (un CA no se cumple) · **Medio** (caso límite o error mal tratado) · **Bajo** (molestia sin efecto en datos).
+
+---
+
+# Verificación parcial 1 – T-01 a T-04
+
+> Fecha: 01-11-2026 · Commit: 2d7a17e · Veredicto entonces: Con fallos. Los fallos 1 y 3 a 9 se arreglaron después en `b6afe8e`. El 2 sigue abierto (es el fallo 1 de la verificación 2).
 
 | Tarea | Resultado | Motivo |
 |---|---|---|
@@ -11,7 +134,7 @@
 | T-03 | **Falla** | CA-29 no se cumple en un navegador completo: hay un error en consola (fallo 1). |
 | T-04 | Pasa, con fallos | Sus 12 CA pasan. Quedan 1 fallo medio compartido con T-03, 1 medio que debe resolver T-09 y varios bajos. |
 
-## Criterios de aceptación
+## Criterios de aceptación (verificación 1)
 
 | CA | Nivel | Resultado | Prueba | Pasos para reproducir (si falla) |
 |---|---|---|---|---|
@@ -38,7 +161,7 @@ Resultado de las ejecuciones:
 - `verify` de T-04: 12 pasan.
 - `npx playwright test`: 21 pasan y 44 fallan. De los 44, 35 son de T-05 a T-11, sin construir, y 9 son tests nuevos de este informe.
 
-## Revisión del código frente a los criterios
+## Revisión del código frente a los criterios (verificación 1)
 
 **Tests de aceptación.** Ningún archivo de `e2e/` confirmado ha cambiado desde `729aff1`: no se han debilitado.
 
@@ -75,7 +198,7 @@ Los otros 2 unitarios no son huecos de la app:
 - `preventDefault()` no choca con `form-action 'none'`: al añadir no hay errores de la política de seguridad, tampoco en el navegador completo.
 - `maxlength` no parte un emoji al pegar: 101 emojis dan 100 enteros (longitud 200, sin mitades).
 
-## Prueba exploratoria
+## Prueba exploratoria (verificación 1)
 
 Se probó con el árbol de accesibilidad y estilos calculados, a 1280 y 360 px, en modo claro y oscuro. `scripts/init.sh` no arranca la app en este proyecto (instala dependencias), así que se usó el mismo servidor de `npm run dev` en otro puerto.
 
@@ -110,7 +233,7 @@ Se probó con el árbol de accesibilidad y estilos calculados, a 1280 y 360 px, 
 
 **Previsto, de tareas sin construir:** un fallo de guardado no avisa hasta T-09, y la casilla cambia de aspecto sin guardar hasta T-05, porque `app.js` aún no la atiende.
 
-## Fallos por gravedad
+## Fallos por gravedad (verificación 1)
 
 | # | Gravedad | Qué pasa | CA | Test nuevo que lo cubre |
 |---|---|---|---|---|

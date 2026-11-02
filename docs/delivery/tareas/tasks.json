@@ -416,6 +416,11 @@
           "ca": "CA-32",
           "level": "e2e",
           "path": "e2e/tareas/fallos-guardado.spec.js"
+        },
+        {
+          "ca": "RN-13",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
         }
       ],
       "status": "failing",
@@ -443,6 +448,11 @@
           "ca": "CA-45",
           "level": "e2e",
           "path": "e2e/tareas/teclado-accesibilidad.spec.js"
+        },
+        {
+          "ca": "DP-06",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
         }
       ],
       "status": "failing",
@@ -464,6 +474,21 @@
           "ca": "CA-44",
           "level": "e2e",
           "path": "e2e/tareas/movil.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
+        },
+        {
+          "ca": "states.md",
+          "level": "e2e",
+          "path": "e2e/tareas/hallazgos-qa-filas.spec.js"
         }
       ],
       "status": "failing",
